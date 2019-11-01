@@ -10,6 +10,9 @@ function App() {
         <p>
           BestWebShop.TECH
         </p>
+        <small>
+          I changed this line to see if my update script works.
+        </small>
         <a
           className="App-link"
           href="https://reactjs.org"
