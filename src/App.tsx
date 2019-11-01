@@ -11,7 +11,7 @@ function App() {
           BestWebShop.TECH
         </p>
         <small>
-          I changed this line to see if my update script works.
+          I changed this line again to see if my update script works.
         </small>
         <a
           className="App-link"
