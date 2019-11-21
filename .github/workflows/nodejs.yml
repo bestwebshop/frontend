@@ -24,5 +24,8 @@ jobs:
         npm test
       env:
         CI: true    
-    - name: ESLint checks
-      uses: gimenete/eslint-action@1.0
+    - name: Linting
+      uses: mooyoul/tslint-actions@v1.1.1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        pattern: '*.ts'
