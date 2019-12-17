@@ -1,45 +1,15 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {Alert, Button, ButtonToolbar, Container, Row, Col} from 'react-bootstrap';
-import axios from 'axios';
+import LoadingButton from "./components/LoadingButton";
 import ProductList from "./components/ProductList";
 import ProductListEntry from "./components/ProductListEntry";
 
-function get_products() {
-  return axios.get('https://api.exchangeratesapi.io/latest');
-}
 
-function LoadingButton() {
-  const [isLoading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (isLoading) {
-      get_products().then((response) => {
-        setLoading(false);
-        console.log(response.data);  //        console.log(response.status);        console.log(response.statusText);        console.log(response.headers);        console.log(response.config);
-      });
-    }
-  }, [isLoading]);
-
-  const handleClick = () => setLoading(true);
-
+const App = () => {
+  const [ajaxResponse, setAjaxResponse] = useState("--");
   return (
-    <Button
-      variant="primary"
-      disabled={isLoading}
-      onClick={!isLoading ? handleClick : ()=>{}}
-    >
-      {isLoading ? 'Loading…' : 'Click to load'}
-    </Button>
-  );
-}
-
-class App extends Component {
-
-  render()
-  {
-    return (
         <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo"/>
@@ -68,9 +38,11 @@ class App extends Component {
                   </ProductList>
                 </Col>
                 <Col sm>
-                  <LoadingButton/>
+                  <LoadingButton respFct={setAjaxResponse}  />
                   <br/>
                   Look in Console Log
+                  <br/>
+                  {ajaxResponse}
                 </Col>
                 <Col sm>
                   ...2...
@@ -85,9 +57,7 @@ class App extends Component {
                     <Button variant="warning">Warning</Button>
                     <Button variant="danger">Danger</Button>
                     <Button variant="info">Info</Button>
-                    <Button variant="light">Light</Button>
                     <Button variant="dark">Dark</Button>
-                    <Button variant="link">Link</Button>
                   </ButtonToolbar>
                 </Col>
               </Row>
@@ -95,7 +65,6 @@ class App extends Component {
           </main>
         </div>
     );
-  }
 }
 
 export default App;
