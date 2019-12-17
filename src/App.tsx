@@ -5,16 +5,15 @@ import {Alert, Button, ButtonToolbar, Container, Row, Col} from 'react-bootstrap
 import LoadingButton from "./components/LoadingButton";
 import ProductList from "./components/ProductList";
 import ProductListEntry from "./components/ProductListEntry";
-
+import AutoList from "./components/AutoList";
 
 const App = () => {
-  const [ajaxResponse, setAjaxResponse] = useState("--");
+  const [currencyApiResp, setCurrencyApiResp] = useState([{name:"Currencies",list:[{key:"click button",value:"to load"}]}]);
   return (
         <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo"/>
             <p>BestWebShop.TECH</p>
-            <small>Latest Update: 16.12.2019 19:30</small>
           </header>
 
           <main className="App-body">
@@ -26,7 +25,7 @@ const App = () => {
                   </Alert>
                 </Col>
                 <Col sm={4}>
-                  ...1...
+                  ... 1 ...
                 </Col>
               </Row>
               <Row>
@@ -38,14 +37,12 @@ const App = () => {
                   </ProductList>
                 </Col>
                 <Col sm>
-                  <LoadingButton respFct={setAjaxResponse}  />
+                  <LoadingButton currencyApiResp={setCurrencyApiResp}  />
                   <br/>
-                  Look in Console Log
-                  <br/>
-                  {ajaxResponse}
+                  {/*Look in Console Log <br/>*/}
                 </Col>
                 <Col sm>
-                  ...2...
+                  <AutoList kvlist={currencyApiResp[0]} />
                 </Col>
               </Row>
               <Row>

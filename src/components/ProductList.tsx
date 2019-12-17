@@ -1,7 +1,7 @@
 import React from "react";
 import {Card, ListGroup} from "react-bootstrap";
 
-class ProductListEntry extends React.Component<{children: JSX.Element[]}> {
+class ProductList extends React.Component<{children: JSX.Element[]}> {
 
   render() {
     return (
@@ -15,5 +15,5 @@ class ProductListEntry extends React.Component<{children: JSX.Element[]}> {
   }
 
 }
-export default ProductListEntry
+export default ProductList
 
