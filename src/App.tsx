@@ -6,9 +6,24 @@ import LoadingButton from "./components/LoadingButton";
 import ProductList from "./components/ProductList";
 import ProductListEntry from "./components/ProductListEntry";
 import AutoList from "./components/AutoList";
+import LoadUserButton from 'components/LoadUserButton';
+import UserCard from 'components/UserCard';
 
 const App = () => {
   const [currencyApiResp, setCurrencyApiResp] = useState([{name:"Currencies",list:[{key:"click button",value:"to load"}]}]);
+  const [userApiResp, setUserApiResp] = useState({
+    id: 0,
+    lastname: "placeholder",
+    firstname: "tim",
+    username: "tpl",
+    password: "paswd",
+    role: {
+      id: 1,
+      typ: "testuser",
+      level: 1
+    }
+  });
+  
   return (
         <div className="App">
           <header className="App-header">
@@ -25,7 +40,7 @@ const App = () => {
                   </Alert>
                 </Col>
                 <Col sm={4}>
-                  ... 1 ...
+                  <LoadUserButton userApiResp={setUserApiResp}/>
                 </Col>
               </Row>
               <Row>
@@ -57,6 +72,9 @@ const App = () => {
                     <Button variant="dark">Dark</Button>
                   </ButtonToolbar>
                 </Col>
+              </Row>
+              <Row>
+                <UserCard show_user={userApiResp} />
               </Row>
             </Container>
           </main>

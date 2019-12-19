@@ -5,9 +5,8 @@ interface User {
     lastname: String;
     firstname: String;
     username: String;
-
-    password?: string;
-    role?: Role;
+    password: string;
+    role: Role;
 }
 
 export default User;
