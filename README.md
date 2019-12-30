@@ -1,5 +1,6 @@
 # THIS FOLDER CONTAINS FRONTEND SOURCE CODE THAT IS LOADED INTO THE CONTAINERS WHEN THEY ARE BUILD. THIS FOLDER SHOULD NOT BE CLONED DIRECTLY ONTO THE HOST, BUT INSIDE THE CONTAINER
 
+Test git config
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
