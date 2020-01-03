@@ -1,84 +1,60 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {Alert, Button, ButtonToolbar, Container, Row, Col} from 'react-bootstrap';
-import LoadingButton from "./components/LoadingButton";
-import ProductList from "./components/ProductList";
-import ProductListEntry from "./components/ProductListEntry";
-import AutoList from "./components/AutoList";
-import LoadUserButton from 'components/LoadUserButton';
-import UserCard from 'components/UserCard';
+
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import Products from "./pages/Products";
+import Home from "./pages/Home";
+import {Button, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import { LinkContainer } from 'react-router-bootstrap'
+import Error404 from "./pages/Error404";
+import CurrencyConverter from "./pages/CurrencyConverter";
+import UserList from "./pages/UserList";
 
 const App = () => {
-  const [currencyApiResp, setCurrencyApiResp] = useState([{name:"Currencies",list:[{key:"click button",value:"to load"}]}]);
-  const [userApiResp, setUserApiResp] = useState({
-    id: 0,
-    lastname: "placeholder",
-    firstname: "tim",
-    username: "tpl",
-    password: "paswd",
-    role: {
-      id: 1,
-      typ: "testuser",
-      level: 1
-    }
-  });
-  
   return (
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo"/>
-            <p>BestWebShop.TECH</p>
-          </header>
-
-          <main className="App-body">
-            <Container>
-              <Row>
-                <Col sm={8}>
-                  <Alert variant="warning">
-                    This Website is Work-In-Progress!
-                  </Alert>
-                </Col>
-                <Col sm={4}>
-                  <LoadUserButton userApiResp={setUserApiResp}/>
-                </Col>
-              </Row>
-              <Row>
-                <Col sm>
-                  <ProductList>
-                    <ProductListEntry name="Shoes" />
-                    <ProductListEntry name="Shirts" />
-                    <ProductListEntry name="Jackets" />
-                  </ProductList>
-                </Col>
-                <Col sm>
-                  <LoadingButton currencyApiResp={setCurrencyApiResp}  />
-                  <br/>
-                  {/*Look in Console Log <br/>*/}
-                </Col>
-                <Col sm>
-                  <AutoList kvlist={currencyApiResp[0]} />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm>
-                  <ButtonToolbar>
-                    <Button variant="primary">Primary</Button>
-                    <Button variant="secondary">Secondary</Button>
-                    <Button variant="success">Success</Button>
-                    <Button variant="warning">Warning</Button>
-                    <Button variant="danger">Danger</Button>
-                    <Button variant="info">Info</Button>
-                    <Button variant="dark">Dark</Button>
-                  </ButtonToolbar>
-                </Col>
-              </Row>
-              <Row>
-                <UserCard show_user={userApiResp} />
-              </Row>
-            </Container>
-          </main>
-        </div>
+        <Router>
+          <div className="App">
+            <Navbar bg="dark" expand="lg" variant="dark">
+              <LinkContainer to="/">
+                <Navbar.Brand>
+                   <img src={logo} width="30" height="30" className="d-inline-block align-top nav-logo" alt="React Bootstrap logo"/>
+                  BestWebShop.TECH
+                </Navbar.Brand>
+              </LinkContainer>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                  <LinkContainer to="/"><Nav.Link>Home</Nav.Link></LinkContainer>
+                  <LinkContainer to="/products"><Nav.Link>Products</Nav.Link></LinkContainer>
+                  <LinkContainer to="/users"><Nav.Link>Users</Nav.Link></LinkContainer>
+                  <NavDropdown title="Test Pages" id="basic-nav-dropdown">
+                    <LinkContainer to="/currency_converter"><NavDropdown.Item>Currency Converter</NavDropdown.Item></LinkContainer>
+                    <LinkContainer to="/users/1"><NavDropdown.Item>UserDetails/1</NavDropdown.Item></LinkContainer>
+                    <NavDropdown.Divider />
+                    <LinkContainer to="/action/3.4"><NavDropdown.Item>Separated link</NavDropdown.Item></LinkContainer>
+                  </NavDropdown>
+                </Nav>
+                <Navbar.Text className="nav-loginmsg">
+                  Signed in as: <Link to="/users/1">admin admin</Link>
+                </Navbar.Text>
+                <Form inline>
+                  <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                  <Button variant="outline-success">Search</Button>
+                </Form>
+              </Navbar.Collapse>
+            </Navbar>
+            <main className="App-body">
+              <Switch>
+                <Route path="/" exact component={Home}/>
+                <Route path="/products" component={Products}/>
+                <Route path="/users" component={UserList}/>
+                <Route path="/currency_converter" component={CurrencyConverter}/>
+                <Route component={Error404} />
+              </Switch>
+            </main>
+          </div>
+        </Router>
     );
 }
 

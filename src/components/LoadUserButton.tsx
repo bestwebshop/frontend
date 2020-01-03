@@ -3,12 +3,13 @@ import axios from "axios";
 import {Button} from "react-bootstrap";
 import User from "datatypes/User";
 
-const LoadUserButton = (props:{userApiResp:Function}) => {
+const LoadUserButton = (props:{userApiResp:Function, userID:number}) => {
     const [isLoading, setLoading] = useState(false);
     const userApiResp = props.userApiResp;
+    const userID = props.userID;
     useEffect(() => {
         if (isLoading) {
-            axios.get('http://bestwebshop.tech:9203/user/1').then((response) => {
+            axios.get('http://bestwebshop.tech:9203/user/'+userID.toString()).then((response) => {
                 setLoading(false);
                 //creating a list of KeyValueLists (e.g. products, categories and users -> Composite Server)
                 let loadedUser : User = {
@@ -28,7 +29,7 @@ const LoadUserButton = (props:{userApiResp:Function}) => {
                 //console.log(resp);
             });
         }
-    }, [isLoading, userApiResp]);
+    }, [isLoading, userApiResp, userID]);
 
     const handleClick = () => setLoading(true);
 

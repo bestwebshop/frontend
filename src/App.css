@@ -2,25 +2,12 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 90%;
+.nav-logo {
+  margin-right: 1rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  height: 40px;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: center;
-  font-size: 15px;
-  color: white;
-}
-
-.App-header > * {
-  flex: 1;
-  vertical-align: middle;
-  height: auto
+.nav-loginmsg {
+  margin-right: 1rem;
 }
 
 .App-link {
@@ -36,4 +23,7 @@
 }
 .btn-toolbar .btn {
   margin-right: 10px;
+}
+.extreme-big {
+  font-size: 15rem;
 }
