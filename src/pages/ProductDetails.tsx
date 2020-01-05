@@ -69,7 +69,7 @@ const ProductDetails = () => {
                     <b>#</b> {loadedProduct.id} <br/>
                       <b>Name</b> {loadedProduct.name} <br/>
                               <b>Price</b> {loadedProduct.price} € <br/>
-                              <b>Category</b> <Link to={"/category/"+loadedProduct.category.id}>{loadedProduct.category.name}</Link> <br/>
+                              <b>Category</b> <Link to={"/categories/"+loadedProduct.category.id}>{loadedProduct.category.name}</Link> <br/>
                               <b>Details</b> {loadedProduct.details} <br/>
                               <b>Actions</b>
                               <ButtonToolbar>
