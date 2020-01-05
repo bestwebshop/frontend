@@ -32,7 +32,11 @@ const App = () => {
                     <LinkContainer to="/currency_converter"><NavDropdown.Item>Currency Converter</NavDropdown.Item></LinkContainer>
                     <LinkContainer to="/users/1"><NavDropdown.Item>UserDetails/1</NavDropdown.Item></LinkContainer>
                     <NavDropdown.Divider />
-                    <LinkContainer to="/action/3.4"><NavDropdown.Item>Separated link</NavDropdown.Item></LinkContainer>
+                    <NavDropdown.Item href="http://bestwebshop.tech:9200/" target="_blank">Eureka Discovery Service</NavDropdown.Item>
+                    <NavDropdown.Item href="http://bestwebshop.tech:9206/actuator/hystrix.stream/" target="_blank">Hystrix Stream for Inventory Service</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="http://bestwebshop.tech:9201/" target="_blank">Zuul Edge Service</NavDropdown.Item>
+                    <NavDropdown.Item href="http://bestwebshop.tech:9207/" target="_blank">Hystrix Dashboard Service</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
                 <Navbar.Text className="nav-loginmsg">

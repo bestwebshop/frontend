@@ -9,6 +9,7 @@ const LoadUserButton = (props:{userApiResp:Function, userID:number}) => {
     const userID = props.userID;
     useEffect(() => {
         if (isLoading) {
+            //TODO: replace user api by products from http://bestwebshop.tech:9204/products/
             axios.get('http://bestwebshop.tech:9203/user/'+userID.toString()).then((response) => {
                 setLoading(false);
                 //creating a list of KeyValueLists (e.g. products, categories and users -> Composite Server)
