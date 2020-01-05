@@ -83,7 +83,7 @@ const ProductList = () => {
                                   <td>{item.id}</td>
                                   <td>{item.name}</td>
                                   <td>{item.price} €</td>
-                                  <td><Link to={"/category/" + item.category.id}>{item.category.name}</Link></td>
+                                  <td><Link to={"/categories/" + item.category.id}>{item.category.name}</Link></td>
                                   <td>
                                       <ButtonToolbar>
                                           <LinkContainer to={`${match.url}/${item.id.toString()}`}>
