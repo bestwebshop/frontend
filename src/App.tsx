@@ -9,7 +9,9 @@ import {Button, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstr
 import { LinkContainer } from 'react-router-bootstrap'
 import Error404 from "./pages/Error404";
 import CurrencyConverter from "./pages/CurrencyConverter";
-import UserList from "./pages/UserList";
+import Users from "./pages/Users";
+import Categories from "./pages/Categories";
+import Roles from "./pages/Roles";
 
 const App = () => {
   return (
@@ -28,9 +30,10 @@ const App = () => {
                   <LinkContainer to="/"><Nav.Link>Home</Nav.Link></LinkContainer>
                   <LinkContainer to="/products"><Nav.Link>Products</Nav.Link></LinkContainer>
                   <LinkContainer to="/users"><Nav.Link>Users</Nav.Link></LinkContainer>
+                  <LinkContainer to="/categories"><Nav.Link>Categories</Nav.Link></LinkContainer>
                   <NavDropdown title="Test Pages" id="basic-nav-dropdown">
                     <LinkContainer to="/currency_converter"><NavDropdown.Item>Currency Converter</NavDropdown.Item></LinkContainer>
-                    <LinkContainer to="/users/1"><NavDropdown.Item>UserDetails/1</NavDropdown.Item></LinkContainer>
+                    <LinkContainer to="/roles"><NavDropdown.Item>Roles</NavDropdown.Item></LinkContainer>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="http://bestwebshop.tech:9200/" target="_blank">Eureka Discovery Service</NavDropdown.Item>
                     <NavDropdown.Item href="http://bestwebshop.tech:9206/actuator/hystrix.stream/" target="_blank">Hystrix Stream for Inventory Service</NavDropdown.Item>
@@ -52,7 +55,9 @@ const App = () => {
               <Switch>
                 <Route path="/" exact component={Home}/>
                 <Route path="/products" component={Products}/>
-                <Route path="/users" component={UserList}/>
+                <Route path="/users" component={Users}/>
+                <Route path="/categories" component={Categories}/>
+                <Route path="/roles" component={Roles}/>
                 <Route path="/currency_converter" component={CurrencyConverter}/>
                 <Route component={Error404} />
               </Switch>

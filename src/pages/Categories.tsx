@@ -1,22 +1,22 @@
 import React from "react";
 import {Route, Switch, useRouteMatch} from "react-router-dom";
-import ProductDetails from "./ProductDetails";
-import ProductList from "./ProductList";
+import CategoryList from "./CategoryList";
+import CategoryDetails from "./CategoryDetails";
 
 
-const Products = () => {
+const Categories = () => {
   let match  = useRouteMatch();
   return (
       <Switch>
-        <Route path={`${match.path}/:productID`}>
-          <ProductDetails />
+        <Route path={`${match.path}/:categoryID`}>
+          <CategoryDetails />
         </Route>
         <Route path={match.path}>{/* Fallback when no ID submitted */}
-            <ProductList />
+            <CategoryList />
         </Route>
       </Switch>
 
   );
 }
 
-export default Products
+export default Categories

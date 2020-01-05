@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import AutoList from "../components/AutoList";
-import LoadingButton from "../components/LoadingButton";
+import LoadCurrencyButton from "../components/LoadCurrencyButton";
 
 const CurrencyConverter = () => {
   const [currencyApiResp, setCurrencyApiResp] = useState([{name:"Currencies",list:[{key:"click button",value:"to load"}]}]);
@@ -14,7 +14,7 @@ const CurrencyConverter = () => {
         </Row>
           <Row>
               <Col sm={2}>
-                  <LoadingButton currencyApiResp={setCurrencyApiResp}  />
+                  <LoadCurrencyButton currencyApiResp={setCurrencyApiResp}  />
               </Col>
               <Col sm={10}>
                   <AutoList kvlist={currencyApiResp[0]} />

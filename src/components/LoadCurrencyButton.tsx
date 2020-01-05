@@ -4,7 +4,7 @@ import {Button} from "react-bootstrap";
 import KeyValueList from "../datatypes/KeyValueList";
 import KeyValue from "../datatypes/KeyValue";
 
-const LoadingButton = (props:{currencyApiResp:Function}) => {
+const LoadCurrencyButton = (props:{currencyApiResp:Function}) => {
     const [isLoading, setLoading] = useState(false);
     const currencyApiResp = props.currencyApiResp;
     useEffect(() => {
@@ -47,4 +47,4 @@ const LoadingButton = (props:{currencyApiResp:Function}) => {
     );
 }
 
-export default LoadingButton;
+export default LoadCurrencyButton;

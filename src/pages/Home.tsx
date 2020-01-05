@@ -1,7 +1,5 @@
 import React from "react";
 import {Alert, Button, ButtonToolbar, Col, Container, FormControl, InputGroup, Row} from "react-bootstrap";
-import ProductList from "../components/ProductList";
-import ProductListEntry from "../components/ProductListEntry";
 
 const Home = () => {
     return (
@@ -46,15 +44,6 @@ const Home = () => {
             </Alert>
           </Col>
 
-        </Row>
-        <Row>
-          <Col sm>
-            <ProductList>
-              <ProductListEntry name="Shoes" />
-              <ProductListEntry name="Shirts" />
-              <ProductListEntry name="Jackets" />
-            </ProductList>
-          </Col>
         </Row>
         <Row>
           <Col sm>
