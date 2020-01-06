@@ -8,6 +8,8 @@ import {Link, useRouteMatch} from "react-router-dom";
 
 const ProductList = () => {
     const [isLoading, setLoading] = useState(true); //true=fetch from api onload, false=only on button click
+    const [isCreating, setCreating] = useState(false);
+    const [isDeleting, setDeleting] = useState(0);
     const [loadedProducts, setLoadedProducts] = useState<Product[]>([{
         id: -1,
         name: "-",
@@ -21,8 +23,7 @@ const ProductList = () => {
 
     useEffect(() => {
         if (isLoading) {
-                        //TODO: replace user api by products from http://bestwebshop.tech:9201/inventory-api/products
-
+            //TODO: replace product api by composite inventory api with category name from http://bestwebshop.tech:9201/inventory-api/products
             axios.get('http://bestwebshop.tech:9204/products/').then((response) => {
                 setLoading(false);
                 //creating a list of Products (e.g. products, categories and users -> Composite Server)
@@ -35,24 +36,50 @@ const ProductList = () => {
                         details: response.data[prod_id].details,
                         category: {
                           id: response.data[prod_id].categoryID,
-                          name: "placeholder_cat_name"
+                          name: "category_"+response.data[prod_id].categoryID.toString()
                         }
                     })
                 }
                 setLoadedProducts(loadedProducts);
             });
         }
-    }, [setLoadedProducts, isLoading]);
+        if(isCreating) {
+            setCreating(false);
+            axios.post('http://bestwebshop.tech:9204/products/',{"name": "hi","details":"test", "price":12, "categoryID": 1}).then((response)=>{
+                console.log("added product", response.data)
+                setLoading(true);
+            })
+        }
+        if(isDeleting>0){
+            setDeleting(0);
+             axios.delete('http://bestwebshop.tech:9204/products/'+isDeleting.toString()).then((response)=>{
+                console.log("deleted product", response.data)
+                setLoading(true);
+            })
+        }
+    }, [setLoadedProducts, isLoading, isCreating, isDeleting]);
 
     const handleClick = () => setLoading(true);
+    const handleCreateClick = () => setCreating(true);
+    const handleDeleteClick = (id:number) => setDeleting(id);
     let match  = useRouteMatch();
 
   return (
     <Container>
         <Row>
-          <Col sm={8}>
-            <h2>Products</h2>
-          </Col>
+            <Col sm={4}>
+                <Button
+                    variant="success"
+                    disabled={isCreating}
+                    onClick={!isCreating ? handleCreateClick : () => {
+                    }}
+                >
+                    {isCreating ? 'Creating…' : 'Create'}
+                </Button>
+            </Col>
+            <Col sm={4}>
+                <h2>Products</h2>
+            </Col>
             <Col sm={4}>
                 <Button
                     variant="primary"
@@ -89,7 +116,13 @@ const ProductList = () => {
                                           <LinkContainer to={`${match.url}/${item.id.toString()}`}>
                                               <Button variant="secondary">Details</Button>
                                           </LinkContainer>
-                                          <Button variant="danger">Delete</Button>
+                                          <Button
+                                                variant="danger"
+                                                disabled={isDeleting>0}
+                                                onClick={isDeleting===0 ? () => {handleDeleteClick(item.id);} : () => {}}
+                                          >
+                                                {isDeleting>0 ? 'Deleting…' : 'Delete'}
+                                          </Button>
                                       </ButtonToolbar>
                                   </td>
                               </tr>

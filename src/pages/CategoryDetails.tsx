@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Button, ButtonToolbar, Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
 import { useParams} from "react-router-dom";
 import axios from "axios";
 import Category from "../datatypes/Category";
+import {LinkContainer} from "react-router-bootstrap";
 
 const CategoryDetails = () => {
   let { categoryID } = useParams();
@@ -32,33 +33,36 @@ const CategoryDetails = () => {
   return (
       <Container>
         <Row>
-          <Col sm={12}>
-            <h2>Category Details</h2>
-          </Col>
+            <Col sm={4}>
+                <LinkContainer to="/categories">
+                    <Button variant="secondary">Back</Button>
+                </LinkContainer>
+            </Col>
+            <Col sm={4}>
+                <h2>Category Details</h2>
+            </Col>
+            <Col sm={4}>
+                <Button
+                    variant="primary"
+                    disabled={isLoading}
+                    onClick={!isLoading ? handleClick : () => {
+                    }}
+                >
+                    {isLoading ? 'Fetching Category…' : 'Refresh'}
+                </Button>
+            </Col>
         </Row>
           <Row>
               Requested category ID: {categoryID}
           </Row>
           <Row>
-              <Col sm={2}>
-                  <Button
-                        variant="primary"
-                        disabled={isLoading}
-                        onClick={!isLoading ? handleClick : () => {
-                        }}
-                    >
-                        {isLoading ? 'Fetching Product…' : 'Refresh'}
-                    </Button>
-              </Col>
-              <Col sm={10}>
+              <Col sm>
                   {loadedCategory.id === -1 ? <>Loading...</> :
                       <>
                         <b>#</b> {loadedCategory.id} <br/>
                         <b>Name</b> {loadedCategory.name} <br/>
                         <b>Actions</b>
-                        <ButtonToolbar>
                           <Button variant="danger">Delete</Button>
-                        </ButtonToolbar>
                       </>
                       }
               </Col>

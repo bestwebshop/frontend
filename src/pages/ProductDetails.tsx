@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {Button, ButtonToolbar, Col, Container, Row} from "react-bootstrap";
-import {Link, useParams} from "react-router-dom";
+import {Button, Col, Container, Row} from "react-bootstrap";
+import {Link, useParams, useHistory} from "react-router-dom";
 import Product from "../datatypes/Product";
 import axios from "axios";
+import {LinkContainer} from "react-router-bootstrap";
 
 const ProductDetails = () => {
   let { productID } = useParams();
 
   const [isLoading, setLoading] = useState(true); //true=fetch from api onload, false=only on button click
+  const [isDeleting, setDeleting] = useState(false);
   const [loadedProduct, setLoadedProduct] = useState<Product>({
         id: -1,
         name: "-",
@@ -19,10 +21,11 @@ const ProductDetails = () => {
         }
     });
 
+    const history = useHistory();
 
     useEffect(() => {
         if (isLoading) {
-            //TODO: replace product api by products from http://bestwebshop.tech:9201/inventory-api/products
+            //TODO: replace product api by composite inventory api with category name from http://bestwebshop.tech:9201/inventory-api/products
             axios.get('http://bestwebshop.tech:9204/products/'+(productID === undefined ? "undefined_product_ID" : productID)).then((response) => {
                 setLoading(false);
                 let loadedProduct : Product = {
@@ -38,32 +41,45 @@ const ProductDetails = () => {
                 setLoadedProduct(loadedProduct);
             });
         }
-    }, [setLoadedProduct, productID, isLoading]);
+        if(isDeleting){
+            setDeleting(false);
+             axios.delete('http://bestwebshop.tech:9204/products/'+(productID === undefined ? "undefined_product_ID" : productID)).then((response)=>{
+                console.log("deleted product", response.data)
+                history.push("/products");//redirect
+            })
+        }
+    }, [setLoadedProduct, productID, isLoading, isDeleting, history]);
 
     const handleClick = () => setLoading(true);
+    const handleDeleteClick = () => setDeleting(true);
 
   return (
       <Container>
         <Row>
-          <Col sm={12}>
-            <h2>Product Details</h2>
-          </Col>
+            <Col sm={2}>
+                <LinkContainer to="/products">
+                    <Button variant="secondary">Back</Button>
+                </LinkContainer>
+            </Col>
+            <Col sm={8}>
+                <h2>Product Details</h2>
+            </Col>
+            <Col sm={2}>
+                <Button
+                    variant="primary"
+                    disabled={isLoading}
+                    onClick={!isLoading ? handleClick : () => {
+                    }}
+                >
+                    {isLoading ? 'Fetching Product…' : 'Refresh'}
+                </Button>
+            </Col>
         </Row>
           <Row>
               Requested product ID: {productID}
           </Row>
           <Row>
-              <Col sm={2}>
-                  <Button
-                        variant="primary"
-                        disabled={isLoading}
-                        onClick={!isLoading ? handleClick : () => {
-                        }}
-                    >
-                        {isLoading ? 'Fetching Product…' : 'Refresh'}
-                    </Button>
-              </Col>
-              <Col sm={10}>
+              <Col sm>
                   {loadedProduct.id === -1 ? <>Loading...</> :
                       <>
                     <b>#</b> {loadedProduct.id} <br/>
@@ -72,9 +88,13 @@ const ProductDetails = () => {
                               <b>Category</b> <Link to={"/categories/"+loadedProduct.category.id}>{loadedProduct.category.name}</Link> <br/>
                               <b>Details</b> {loadedProduct.details} <br/>
                               <b>Actions</b>
-                              <ButtonToolbar>
-                                  <Button variant="danger">Delete</Button>
-                              </ButtonToolbar>
+                                  <Button
+                                        variant="danger"
+                                        disabled={isDeleting}
+                                        onClick={!isDeleting ? handleDeleteClick : () => {}}
+                                  >
+                                    {isDeleting ? 'Deleting…' : 'Delete'}
+                                  </Button>
                       </>
                       }
               </Col>
