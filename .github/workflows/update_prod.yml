@@ -1,5 +1,5 @@
 name: update prod server
-on: [push]
+on: [] # on: [push]
 jobs:
 
   build:
