@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Container, Row, Form, InputGroup} from "react-bootstrap";
+import {Button, Col, Container, Row, Form} from "react-bootstrap";
 import { useParams} from "react-router-dom";
 import axios from "axios";
 import Category from "../datatypes/Category";
@@ -47,7 +47,7 @@ const CategoryDetails = () => {
         let e = { ...editedCategory};
         e.name = val.toString();
         setEditedCategory({...e});
-    }
+    };
   return (
       <Container>
         <Row>

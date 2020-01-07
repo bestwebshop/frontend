@@ -5,45 +5,11 @@ const Home = () => {
     return (
       <Container>
         <Row>
-          <Col sm={2}>
-            Step 1:
-          </Col>
-          <Col sm={4}>
-            <InputGroup className="mb-3">
-              <InputGroup.Prepend>
-                <InputGroup.Text id="basic-addon1">User</InputGroup.Text>
-              </InputGroup.Prepend>
-              <FormControl
-                placeholder="Username"
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-              />
-            </InputGroup>
-          </Col>
-          <Col sm={4}>
-            <InputGroup className="mb-3">
-              <InputGroup.Prepend>
-                <InputGroup.Text id="basic-addon1">Password</InputGroup.Text>
-              </InputGroup.Prepend>
-              <FormControl
-                type="password"
-                placeholder="Password"
-                aria-label="Password"
-                aria-describedby="basic-addon1"
-              />
-            </InputGroup>
-          </Col>
-          <Col sm={2}>
-            <Button variant="primary">Login</Button>
-          </Col>
-        </Row>
-        <Row>
           <Col sm={12}>
             <Alert variant="warning">
               This Website is Work-In-Progress!
             </Alert>
           </Col>
-
         </Row>
         <Row>
           <Col sm>
@@ -57,9 +23,6 @@ const Home = () => {
               <Button variant="dark">Dark</Button>
             </ButtonToolbar>
           </Col>
-        </Row>
-        <Row>
-
         </Row>
       </Container>
     );

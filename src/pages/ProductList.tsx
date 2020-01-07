@@ -23,7 +23,6 @@ const ProductList = () => {
 
     useEffect(() => {
         if (isLoading) {
-            //TODO: replace product api by composite inventory api with category name from http://bestwebshop.tech:9201/inventory-api/products
             axios.get('http://bestwebshop.tech:9201/inventory-api/products/').then((response) => {
                 setLoading(false);
                 //creating a list of Products (e.g. products, categories and users -> Composite Server)

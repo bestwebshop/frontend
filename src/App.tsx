@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -12,8 +12,22 @@ import CurrencyConverter from "./pages/CurrencyConverter";
 import Users from "./pages/Users";
 import Categories from "./pages/Categories";
 import Roles from "./pages/Roles";
+import User from "./datatypes/User";
+import Login from "./pages/Login";
 
 const App = () => {
+  const [loggedInUser, setLoggedInUser] = useState<User>({
+        id: -1,
+        lastname: "-",
+        firstname: "-",
+        username: "-",
+        password: "-",
+        role: {
+          id: -1,
+          typ: "-",
+          level: -1
+        }
+    });
   return (
         <Router>
           <div className="App">
@@ -43,9 +57,11 @@ const App = () => {
                     <NavDropdown.Item href="http://bestwebshop.tech:9207/" target="_blank">Hystrix Dashboard Service</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
-                <Navbar.Text className="nav-loginmsg">
-                  Signed in as: <Link to="/users/1">admin admin</Link>
-                </Navbar.Text>
+                {loggedInUser.id === -1 ? <> </> :
+                  <Navbar.Text className="nav-loginmsg">
+                  Signed in as: <Link to={"/users/" + loggedInUser.id.toString()}>{loggedInUser.username}</Link>
+                  </Navbar.Text>
+                }
                 <Form inline>
                   <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                   <Button variant="outline-success">Search</Button>
@@ -53,15 +69,17 @@ const App = () => {
               </Navbar.Collapse>
             </Navbar>
             <main className="App-body">
-              <Switch>
-                <Route path="/" exact component={Home}/>
-                <Route path="/products" component={Products}/>
-                <Route path="/users" component={Users}/>
-                <Route path="/categories" component={Categories}/>
-                <Route path="/roles" component={Roles}/>
-                <Route path="/currency_converter" component={CurrencyConverter}/>
-                <Route component={Error404} />
-              </Switch>
+              {loggedInUser.id === -1 ? <Login logUser={loggedInUser} setLogUser={setLoggedInUser}/> :
+                  <Switch>
+                    <Route path="/" exact component={Home}/>
+                    <Route path="/products" component={Products}/>
+                    <Route path="/users" component={Users}/>
+                    <Route path="/categories" component={Categories}/>
+                    <Route path="/roles" component={Roles}/>
+                    <Route path="/currency_converter" component={CurrencyConverter}/>
+                    <Route component={Error404}/>
+                  </Switch>
+              }
             </main>
           </div>
         </Router>

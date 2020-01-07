@@ -21,14 +21,13 @@ const ProductDetails = () => {
             id: 0,
             name: "-"
         }
-    });
-const [editedProduct, setEditedProduct] = useState<Product>({ ...loadedProduct});
+  });
+  const [editedProduct, setEditedProduct] = useState<Product>({ ...loadedProduct});
 
     const history = useHistory();
 
     useEffect(() => {
         if (isLoading) {
-            //TODO: replace product api by composite inventory api with category name from http://bestwebshop.tech:9201/inventory-api/products
             axios.get('http://bestwebshop.tech:9201/inventory-api/products/'+(productID === undefined ? "undefined_product_ID" : productID)).then((response) => {
                 setLoading(false);
                 let loadedProduct : Product = {
