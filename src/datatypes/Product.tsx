@@ -2,9 +2,9 @@ import Category from './Category'
 
 interface Product {
     id: number;
-    name: String;
+    name: string;
     price: number;
-    details: String;
+    details: string;
     category: Category;
 }
 

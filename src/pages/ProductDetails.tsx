@@ -22,7 +22,7 @@ const ProductDetails = () => {
             name: "-"
         }
     });
-const [editedProduct, setEditedProduct] = useState<Product>(loadedProduct);
+const [editedProduct, setEditedProduct] = useState<Product>({ ...loadedProduct});
 
     const history = useHistory();
 
@@ -53,8 +53,7 @@ const [editedProduct, setEditedProduct] = useState<Product>(loadedProduct);
             })
         }
         if(isEditing){
-            editedProduct.name = "updated";
-            console.log(editedProduct)
+            console.log("saving edited:",editedProduct)
             axios.put('http://bestwebshop.tech:9201/inventory-api/products/'+(productID === undefined ? "undefined_product_ID" : productID), editedProduct).then((response)=>{
                 setEditing(false);
                 console.log("edited product", response.data)
@@ -66,6 +65,13 @@ const [editedProduct, setEditedProduct] = useState<Product>(loadedProduct);
     const handleClick = () => setLoading(true);
     const handleDeleteClick = () => setDeleting(true);
     const handleEditClick = () => setEditing(true);
+    
+    const onNameChange = (val:string) => {
+        let e = { ...editedProduct};
+        e.name = val.toString();
+        setEditedProduct({...e}); //this is async but does not support await
+        //console.log(val,e.name, editedProduct.name)
+    }
 
   return (
       <Container>
@@ -94,54 +100,51 @@ const [editedProduct, setEditedProduct] = useState<Product>(loadedProduct);
           </Row>
           <Row>
               <Col sm>
-                  {loadedProduct.id === -1 ? <>Loading...</> :
+                  {editedProduct.id === -1 ? <>Loading...</> :
                       <>
-                      <Form>
-                        <Form.Group controlId="editItem.id">
-                            <Form.Label>#</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue={loadedProduct.id} />
-                        </Form.Group>
-                        <Form.Group controlId="editItem.name">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control type="text" placeholder={loadedProduct.name.toString()} defaultValue={loadedProduct.name.toString()} />
-                        </Form.Group>
-                        <Form.Group controlId="editItem.price">
-                            <Form.Label>Price</Form.Label>
-                            <InputGroup>
-                                <Form.Control type="number" placeholder={loadedProduct.price.toString()} defaultValue={loadedProduct.price.toString()} />
-                                <InputGroup.Append>
-                                    <InputGroup.Text id="price-addon">€</InputGroup.Text>
-                                </InputGroup.Append>
-                            </InputGroup>
-                        </Form.Group>
-                        <Form.Group controlId="editItem.ControlSelect1">
-                            <Form.Label>Category</Form.Label>
-                            <Form.Control as="select">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="editItem.ControlSelect2">
-                            <Form.Label>Example multiple select</Form.Label>
-                            <Form.Control as="select" multiple>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="editItem.ControlTextarea1">
-                            <Form.Label>Example textarea</Form.Label>
-                            <Form.Control as="textarea" rows="3" />
-                        </Form.Group>
+                        <Form>
+                            <Form.Group controlId="editItem.id" as={Row}>
+                                <Form.Label column sm="2">#</Form.Label>
+                                <Col sm="10">
+                                    <Form.Control plaintext readOnly defaultValue={editedProduct.id} />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group controlId="editItem.name" as={Row}>
+                                <Form.Label column sm="2">Name</Form.Label>
+                                <Col sm="10">
+                                    <Form.Control type="text" placeholder={editedProduct.name} value={editedProduct.name} onChange={(e:any) => onNameChange(e.target.value)}/>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group controlId="editItem.price" as={Row}>
+                                <Form.Label column sm="2">Price</Form.Label>
+                                <Col sm="10">
+                                    <InputGroup>
+                                        <Form.Control type="number" placeholder={editedProduct.price.toString()} defaultValue={loadedProduct.price.toString()} />
+                                        <InputGroup.Append>
+                                            <InputGroup.Text id="price-addon">€</InputGroup.Text>
+                                        </InputGroup.Append>
+                                    </InputGroup>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group controlId="editItem.ControlSelect1" as={Row}>
+                                <Form.Label column sm="2">Category</Form.Label>
+                                <Col sm="10"><Form.Control as="select">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </Form.Control></Col>
+                            </Form.Group>
+                            <Form.Group controlId="editItem.details" as={Row}>
+                                <Form.Label column sm="2">Details</Form.Label>
+                                <Col sm="10">
+                                    <Form.Control as="textarea" rows="3" defaultValue={editedProduct.details} />
+                                </Col>
+                            </Form.Group>
                         </Form>
                         <br/>
-                        <b>Category</b> <Link to={"/categories/"+loadedProduct.category.id}>{loadedProduct.category.name}</Link> <br/>
-                        <b>Details</b> {loadedProduct.details} <br/>
+                        <b>Category</b> <Link to={"/categories/"+editedProduct.category.id}>{editedProduct.category.name}</Link> <br/>
                         <b>Actions</b>
                         <Button
                             variant="danger"
@@ -155,7 +158,7 @@ const [editedProduct, setEditedProduct] = useState<Product>(loadedProduct);
                             disabled={isEditing}
                             onClick={!isEditing ? handleEditClick : () => {}}
                         >
-                        {isDeleting ? 'Editing...' : 'Edit'}
+                        {isDeleting ? 'Editing...' : 'Save Edit'}
                         </Button>
                       </>
                       }

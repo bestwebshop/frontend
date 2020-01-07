@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Row, Form, InputGroup} from "react-bootstrap";
 import { useParams} from "react-router-dom";
 import axios from "axios";
 import Category from "../datatypes/Category";
@@ -9,27 +9,45 @@ const CategoryDetails = () => {
   let { categoryID } = useParams();
 
   const [isLoading, setLoading] = useState(true); //true=fetch from api onload, false=only on button click
+  const [isEditing, setEditing] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
+
   const [loadedCategory, setLoadedCategory] = useState<Category>({
         id: -1,
         name: "-"
     });
-
+    const [editedCategory, setEditedCategory] = useState<Category>({ ...loadedCategory});
 
     useEffect(() => {
         if (isLoading) {
-            axios.get('http://bestwebshop.tech:9205/categories/'+(categoryID === undefined ? "undefined_category_ID" : categoryID)).then((response) => {
+            axios.get('http://bestwebshop.tech:9201/inventory-api/categories/'+(categoryID === undefined ? "undefined_category_ID" : categoryID)).then((response) => {
                 setLoading(false);
                 let loadedCategory : Category = {
                     id: response.data.id,
                     name: response.data.name
                 };
                 setLoadedCategory(loadedCategory);
+                setEditedCategory(loadedCategory);
             });
         }
-    }, [setLoadedCategory, categoryID, isLoading]);
+        if(isEditing){
+            console.log("saving edited:",editedCategory)
+            axios.put('http://bestwebshop.tech:9201/inventory-api/categories/'+(categoryID === undefined ? "undefined_category_ID" : categoryID), editedCategory).then((response)=>{
+                setEditing(false);
+                console.log("edited category", response.data)
+                setLoading(true)
+            })
+        }
+    }, [setLoadedCategory, categoryID, isLoading, isEditing, editedCategory]);
 
     const handleClick = () => setLoading(true);
-
+    const handleEditClick = () => setEditing(true);
+    
+    const onNameChange = (val:string) => {
+        let e = { ...editedCategory};
+        e.name = val.toString();
+        setEditedCategory({...e});
+    }
   return (
       <Container>
         <Row>
@@ -59,10 +77,29 @@ const CategoryDetails = () => {
               <Col sm>
                   {loadedCategory.id === -1 ? <>Loading...</> :
                       <>
-                        <b>#</b> {loadedCategory.id} <br/>
-                        <b>Name</b> {loadedCategory.name} <br/>
+                      <Form>
+                            <Form.Group controlId="editItem.id" as={Row}>
+                                <Form.Label column sm="2">#</Form.Label>
+                                <Col sm="10">
+                                    <Form.Control plaintext readOnly defaultValue={editedCategory.id} />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group controlId="editItem.name" as={Row}>
+                                <Form.Label column sm="2">Name</Form.Label>
+                                <Col sm="10">
+                                    <Form.Control type="text" placeholder={editedCategory.name} value={editedCategory.name} onChange={(e:any) => onNameChange(e.target.value)}/>
+                                </Col>
+                            </Form.Group>
+                        </Form>
                         <b>Actions</b>
                           <Button variant="danger">Delete</Button>
+                          <Button
+                            variant="warning"
+                            disabled={isEditing}
+                            onClick={!isEditing ? handleEditClick : () => {}}
+                        >
+                        {isEditing ? 'Editing...' : 'Save Edit'}
+                        </Button>
                       </>
                       }
               </Col>

@@ -5,7 +5,7 @@ import axios from "axios";
 import {useRouteMatch} from "react-router-dom";
 import Category from "../datatypes/Category";
 
-
+//TODO: create new category
 const CategoryList = () => {
     const [isLoading, setLoading] = useState(true); //true=fetch from api onload, false=only on button click
     const [loadedCategories, setLoadedCategories] = useState<Category[]>([{

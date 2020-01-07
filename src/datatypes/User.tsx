@@ -2,9 +2,9 @@ import Role from "./Role";
 
 interface User {
     id: number;
-    lastname: String;
-    firstname: String;
-    username: String;
+    lastname: string;
+    firstname: string;
+    username: string;
     password: string;
     role: Role;
 }
