@@ -24,7 +24,7 @@ const ProductList = () => {
     useEffect(() => {
         if (isLoading) {
             //TODO: replace product api by composite inventory api with category name from http://bestwebshop.tech:9201/inventory-api/products
-            axios.get('http://bestwebshop.tech:9204/products/').then((response) => {
+            axios.get('http://bestwebshop.tech:9201/inventory-api/products/').then((response) => {
                 setLoading(false);
                 //creating a list of Products (e.g. products, categories and users -> Composite Server)
                 let loadedProducts : Product[] = [];
@@ -35,8 +35,8 @@ const ProductList = () => {
                         price: response.data[prod_id].price,
                         details: response.data[prod_id].details,
                         category: {
-                          id: response.data[prod_id].categoryID,
-                          name: "category_"+response.data[prod_id].categoryID.toString()
+                          id: response.data[prod_id].category.id,
+                          name: response.data[prod_id].category.name
                         }
                     })
                 }
@@ -44,15 +44,15 @@ const ProductList = () => {
             });
         }
         if(isCreating) {
-            setCreating(false);
             axios.post('http://bestwebshop.tech:9204/products/',{"name": "hi","details":"test", "price":12, "categoryID": 1}).then((response)=>{
+                setCreating(false);
                 console.log("added product", response.data)
                 setLoading(true);
             })
         }
         if(isDeleting>0){
-            setDeleting(0);
-             axios.delete('http://bestwebshop.tech:9204/products/'+isDeleting.toString()).then((response)=>{
+            axios.delete('http://bestwebshop.tech:9204/products/'+isDeleting.toString()).then((response)=>{
+                setDeleting(0);
                 console.log("deleted product", response.data)
                 setLoading(true);
             })

@@ -15,7 +15,7 @@ const CategoryList = () => {
 
     useEffect(() => {
         if (isLoading) {
-            axios.get('http://bestwebshop.tech:9205/categories/').then((response) => {
+            axios.get('http://bestwebshop.tech:9201/inventory-api/categories/').then((response) => {
                 setLoading(false);
                 let loadedCategories : Category[] = [];
                 for (const cat_id in response.data) {
