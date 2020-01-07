@@ -100,7 +100,7 @@ const [editedProduct, setEditedProduct] = useState<Product>({ ...loadedProduct})
           </Row>
           <Row>
               <Col sm>
-                  {editedProduct.id === -1 ? <>Loading...</> :
+                  {loadedProduct.id === -1 ? <>Loading...</> :
                       <>
                         <Form>
                             <Form.Group controlId="editItem.id" as={Row}>
@@ -158,7 +158,7 @@ const [editedProduct, setEditedProduct] = useState<Product>({ ...loadedProduct})
                             disabled={isEditing}
                             onClick={!isEditing ? handleEditClick : () => {}}
                         >
-                        {isDeleting ? 'Editing...' : 'Save Edit'}
+                        {isEditing ? 'Editing...' : 'Save Edit'}
                         </Button>
                       </>
                       }
