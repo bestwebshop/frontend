@@ -37,6 +37,7 @@ const App = () => {
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="http://bestwebshop.tech:9200/" target="_blank">Eureka Discovery Service</NavDropdown.Item>
                     <NavDropdown.Item href="http://bestwebshop.tech:9206/actuator/hystrix.stream/" target="_blank">Hystrix Stream for Inventory Service</NavDropdown.Item>
+                    <NavDropdown.Item href="http://bestwebshop.tech:9207/hystrix/monitor?stream=http%3A%2F%2Finventory-service%3A8080%2Factuator%2Fhystrix.stream" target="_blank">Hystrix Monitor for Inventory Service</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="http://bestwebshop.tech:9201/" target="_blank">Zuul Edge Service</NavDropdown.Item>
                     <NavDropdown.Item href="http://bestwebshop.tech:9207/" target="_blank">Hystrix Dashboard Service</NavDropdown.Item>
