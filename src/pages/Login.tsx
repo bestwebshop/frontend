@@ -16,7 +16,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
   useEffect(() => {
       if (isLoggingIn) {
         console.log("Logging in with",loginDetails)
-        setIsLoggingIn(false);
+        /*setIsLoggingIn(false);
         let u:User = {
           id: 89,
           lastname: "auth",
@@ -29,8 +29,8 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
             level: -1
           }
         };
-        setLogUser(u);
-          /*axios.get('http://bestwebshop.tech:9201/user-api/users/'+(userID === undefined ? "undefined_user_ID" : userID)).then((response) => {
+        setLogUser(u);*/
+          axios.post('http://bestwebshop.tech:9201/user-api/session/',loginDetails).then((response) => {
               setIsLoggingIn(false);
               let loadedUser : User = {
                 id: response.data.id,
@@ -45,7 +45,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
                 }
               }
               setLogUser(loadedUser);
-          });*/
+          });
       }
   }, [setLogUser, logUser, isLoggingIn]);
 
