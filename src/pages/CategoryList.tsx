@@ -50,7 +50,7 @@ const CategoryList = () => {
             </Col>
         </Row>
           <Row>
-              {loadedCategories[0].id === -1 ? <>Loading...</> :
+              {loadedCategories.length === 0 ? <>No Categories</> :  (loadedCategories[0].id === -1 ? <>Loading...</> :
                   <Table striped bordered hover variant="dark" responsive>
                       <thead>
                       <tr>
@@ -77,7 +77,7 @@ const CategoryList = () => {
                       }
                       </tbody>
                   </Table>
-              }
+              )}
           </Row>
       </Container>
 
