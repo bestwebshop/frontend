@@ -89,7 +89,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
                     <InputGroup.Prepend>
                       <InputGroup.Text id="basic-addon1">User</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <Form.Control type="text" placeholder="Username" value={loginDetails.username} onChange={(e:any) => onUsernameChange(e.target.value)}/>
+                    <Form.Control type="text" placeholder="Username" autoComplete="username" value={loginDetails.username} onChange={(e:any) => onUsernameChange(e.target.value)}/>
                   </InputGroup>
                 </Col>
               </Form.Group>
@@ -99,7 +99,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon1">Password</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control type="password" placeholder="Password" value={loginDetails.password} onChange={(e:any) => onPasswordChange(e.target.value)}/>
+                <Form.Control type="password" placeholder="Password" autoComplete="current-password" value={loginDetails.password} onChange={(e:any) => onPasswordChange(e.target.value)}/>
               </InputGroup>
             </Col>
             <Col sm={2}>

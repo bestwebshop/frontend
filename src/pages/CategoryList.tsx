@@ -8,6 +8,7 @@ import Category from "../datatypes/Category";
 //TODO: create new category
 const CategoryList = () => {
     const [isLoading, setLoading] = useState(true); //true=fetch from api onload, false=only on button click
+    const [isCreating, setCreating] = useState(false);
     const [loadedCategories, setLoadedCategories] = useState<Category[]>([{
         id: -1,
         name: "-"
@@ -27,15 +28,33 @@ const CategoryList = () => {
                 setLoadedCategories(loadedCategories);
             });
         }
-    }, [setLoadedCategories, isLoading]);
+        if(isCreating) {
+            axios.post('http://bestwebshop.tech:9201/inventory-api/categories/',{"name": "new cat"}).then((response)=>{
+                setCreating(false);
+                console.log("added product", response.data)
+                setLoading(true);
+            })
+        }
+    }, [setLoadedCategories, isLoading, setCreating, isCreating]);
 
     const handleClick = () => setLoading(true);
+    const handleCreateClick = () => setCreating(true);
     let match  = useRouteMatch();
 
   return (
     <Container>
         <Row>
-          <Col sm={8}>
+            <Col sm={4}>
+                <Button
+                    variant="success"
+                    disabled={isCreating}
+                    onClick={!isCreating ? handleCreateClick : () => {
+                    }}
+                >
+                    {isCreating ? 'Creating…' : 'Create'}
+                </Button>
+            </Col>
+          <Col sm={4}>
             <h2>Categories</h2>
           </Col>
             <Col sm={4}>

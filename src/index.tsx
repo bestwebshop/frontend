@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from "axios";
+//import axios from "axios";
 
 //axios.defaults.baseURL = 'http://bestwebshop.com:9201'; //does not work with our different ports
 //axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
