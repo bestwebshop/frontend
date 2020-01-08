@@ -105,7 +105,7 @@ const ProductDetails = () => {
                             <Form.Group controlId="editItem.id" as={Row}>
                                 <Form.Label column sm="2">#</Form.Label>
                                 <Col sm="10">
-                                    <Form.Control plaintext readOnly defaultValue={editedProduct.id} />
+                                    <Form.Control plaintext readOnly defaultValue={loadedProduct.id} />
                                 </Col>
                             </Form.Group>
                             <Form.Group controlId="editItem.name" as={Row}>

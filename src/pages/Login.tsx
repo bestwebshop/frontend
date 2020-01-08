@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {Alert, Button, ButtonToolbar, Col, Container, Form, FormControl, InputGroup, Row} from "react-bootstrap";
+import {Alert, Button, Col, Container, Form, InputGroup, Row} from "react-bootstrap";
 import User from "../datatypes/User";
-import axios from "axios";
+import axios, {AxiosError, AxiosResponse} from "axios";
 
 const Login = (props:{logUser:User, setLogUser:Function}) => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -30,7 +30,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
           }
         };
         setLogUser(u);*/
-          axios.post('http://bestwebshop.tech:9201/user-api/session/',loginDetails).then((response) => {
+          axios.post('http://bestwebshop.tech:9201/user-api/session/',loginDetails).then((response: AxiosResponse) => {
               setIsLoggingIn(false);
               let loadedUser : User = {
                 id: response.data.id,
@@ -45,9 +45,18 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
                 }
               }
               setLogUser(loadedUser);
+          }).catch((reason: AxiosError) => {
+              setIsLoggingIn(false);
+              console.log("login error", reason);
+                if (reason.response!.status === 400) {
+                  // Handle 400
+                } else {
+                  // Handle else
+                }
+                console.log(reason.message)
           });
       }
-  }, [setLogUser, logUser, isLoggingIn]);
+  }, [setLogUser, logUser, isLoggingIn, loginDetails]);
 
     const handleLoginClick = () => setIsLoggingIn(true);
     const onUsernameChange = (val:string) => {
@@ -96,6 +105,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
             <Col sm={2}>
                <Button
                   variant="primary"
+                   type="submit"
                   disabled={isLoggingIn}
                   onClick={!isLoggingIn ? handleLoginClick : () => {
                   }}

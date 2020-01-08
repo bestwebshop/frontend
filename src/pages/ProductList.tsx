@@ -43,14 +43,14 @@ const ProductList = () => {
             });
         }
         if(isCreating) {
-            axios.post('http://bestwebshop.tech:9204/products/',{"name": "hi","details":"test", "price":12, "categoryID": 1}).then((response)=>{
+            axios.post('http://bestwebshop.tech:9201/inventory-api/products/',{"name": "hi","details":"test", "price":12, "category": "cat of new product"}).then((response)=>{
                 setCreating(false);
                 console.log("added product", response.data)
                 setLoading(true);
             })
         }
         if(isDeleting>0){
-            axios.delete('http://bestwebshop.tech:9204/products/'+isDeleting.toString()).then((response)=>{
+            axios.delete('http://bestwebshop.tech:9201/inventory-api/products/'+isDeleting.toString()).then((response)=>{
                 setDeleting(0);
                 console.log("deleted product", response.data)
                 setLoading(true);
@@ -91,7 +91,7 @@ const ProductList = () => {
             </Col>
         </Row>
           <Row>
-              {loadedProducts[0].id === -1 ? <>Loading...</> :
+              {loadedProducts.length === 0 ? <>No Products</> :  (loadedProducts[0].id === -1 ? <>Loading...</> :
                   <Table striped bordered hover variant="dark" responsive>
                       <thead>
                       <tr>
@@ -129,7 +129,7 @@ const ProductList = () => {
                       }
                       </tbody>
                   </Table>
-              }
+              )}
           </Row>
       </Container>
 

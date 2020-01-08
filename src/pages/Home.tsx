@@ -1,5 +1,5 @@
 import React from "react";
-import {Alert, Button, ButtonToolbar, Col, Container, FormControl, InputGroup, Row} from "react-bootstrap";
+import {Alert, Button, ButtonToolbar, Col, Container, Row} from "react-bootstrap";
 
 const Home = () => {
     return (

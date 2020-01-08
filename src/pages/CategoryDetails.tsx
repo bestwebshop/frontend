@@ -10,7 +10,7 @@ const CategoryDetails = () => {
 
   const [isLoading, setLoading] = useState(true); //true=fetch from api onload, false=only on button click
   const [isEditing, setEditing] = useState(false);
-  const [isDeleting, setDeleting] = useState(false);
+  //TODO: const [isDeleting, setDeleting] = useState(false);
 
   const [loadedCategory, setLoadedCategory] = useState<Category>({
         id: -1,
@@ -81,7 +81,7 @@ const CategoryDetails = () => {
                             <Form.Group controlId="editItem.id" as={Row}>
                                 <Form.Label column sm="2">#</Form.Label>
                                 <Col sm="10">
-                                    <Form.Control plaintext readOnly defaultValue={editedCategory.id} />
+                                    <Form.Control plaintext readOnly defaultValue={loadedCategory.id} />
                                 </Col>
                             </Form.Group>
                             <Form.Group controlId="editItem.name" as={Row}>
@@ -93,13 +93,14 @@ const CategoryDetails = () => {
                         </Form>
                         <b>Actions</b>
                           <Button variant="danger">Delete</Button>
+
                           <Button
                             variant="warning"
                             disabled={isEditing}
                             onClick={!isEditing ? handleEditClick : () => {}}
-                        >
-                        {isEditing ? 'Editing...' : 'Save Edit'}
-                        </Button>
+                           >
+                            {isEditing ? 'Editing...' : 'Save Edit'}
+                           </Button>
                       </>
                       }
               </Col>
