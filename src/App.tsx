@@ -14,6 +14,7 @@ import Categories from "./pages/Categories";
 import Roles from "./pages/Roles";
 import User from "./datatypes/User";
 import Login from "./pages/Login";
+import OAuthRedirectEndpoint from "./pages/OAuthRedirectEndpoint";
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<User>({
@@ -69,13 +70,23 @@ const App = () => {
               </Navbar.Collapse>
             </Navbar>
             <main className="App-body">
-              {loggedInUser.id === -1 ? <Login logUser={loggedInUser} setLogUser={setLoggedInUser}/> :
+              {loggedInUser.id === -1 ?
+                    <Switch>
+                        <Route path="/OAuthRedirectEndpoint">
+                            <OAuthRedirectEndpoint />
+                        </Route>
+                        <Route>
+                            <Login logUser={loggedInUser} setLogUser={setLoggedInUser}/>
+                        </Route>
+                    </Switch>
+                  :
                   <Switch>
                     <Route path="/" exact component={Home}/>
                     <Route path="/products" component={Products}/>
                     <Route path="/users" component={Users}/>
                     <Route path="/categories" component={Categories}/>
                     <Route path="/roles" component={Roles}/>
+                    {/*<Route path="/OAuthRedirectEndpoint" component={OAuthRedirectEndpoint}/>*/}
                     <Route path="/currency_converter" component={CurrencyConverter}/>
                     <Route component={Error404}/>
                   </Switch>

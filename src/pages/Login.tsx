@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Alert, Button, Col, Container, Form, InputGroup, Row} from "react-bootstrap";
 import User from "../datatypes/User";
 import axios, {AxiosError, AxiosResponse} from "axios";
+import {LinkContainer} from "react-router-bootstrap";
 
 const Login = (props:{logUser:User, setLogUser:Function}) => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -78,6 +79,16 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
           </Alert>
         </Row>
         <Form>
+            <Row><Col><h2>OAuth Login:</h2></Col></Row>
+            <Row><Col>Authorization Code Grant Type Step 2</Col></Row>
+            <Row>
+                <Col>
+                    <LinkContainer to="/oauth/authorize?response_type=code&client_id=bestwebshop.tech&scope=login&redirect_uri=http://bestwebshop.tech/OAuthRedirectEndpoint">
+                      <Button variant="primary">OAuth Login</Button>
+                    </LinkContainer>
+                </Col>
+            </Row>
+            <Row><Col><h2>Legacy Login:</h2></Col></Row>
           <Row>
             <Col sm={2}>
               Please Login:
