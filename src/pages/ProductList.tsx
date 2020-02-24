@@ -23,7 +23,7 @@ const ProductList = () => {
 
     useEffect(() => {
         if (isLoading) {
-            axios.get('http://bestwebshop.tech:9201/inventory-api/products/').then((response) => {
+            axios.get('inventory-api/products/').then((response) => {
                 setLoading(false);
                 //creating a list of Products (e.g. products, categories and users -> Composite Server)
                 let loadedProducts : Product[] = [];
@@ -43,14 +43,14 @@ const ProductList = () => {
             });
         }
         if(isCreating) {
-            axios.post('http://bestwebshop.tech:9201/inventory-api/products/',{"name": "hi","details":"test", "price":12, "category": "cat of new product"}).then((response)=>{
+            axios.post('inventory-api/products/',{"name": "hi","details":"test", "price":12, "category": "cat of new product"}).then((response)=>{
                 setCreating(false);
                 console.log("added product", response.data)
                 setLoading(true);
             })
         }
         if(isDeleting>0){
-            axios.delete('http://bestwebshop.tech:9201/inventory-api/products/'+isDeleting.toString()).then((response)=>{
+            axios.delete('inventory-api/products/'+isDeleting.toString()).then((response)=>{
                 setDeleting(0);
                 console.log("deleted product", response.data)
                 setLoading(true);

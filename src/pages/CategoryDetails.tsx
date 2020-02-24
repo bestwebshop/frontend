@@ -20,7 +20,7 @@ const CategoryDetails = () => {
 
     useEffect(() => {
         if (isLoading) {
-            axios.get('http://bestwebshop.tech:9201/inventory-api/categories/'+(categoryID === undefined ? "undefined_category_ID" : categoryID)).then((response) => {
+            axios.get('inventory-api/categories/'+(categoryID === undefined ? "undefined_category_ID" : categoryID)).then((response) => {
                 setLoading(false);
                 let loadedCategory : Category = {
                     id: response.data.id,
@@ -32,7 +32,7 @@ const CategoryDetails = () => {
         }
         if(isEditing){
             console.log("saving edited:",editedCategory)
-            axios.put('http://bestwebshop.tech:9201/inventory-api/categories/'+(categoryID === undefined ? "undefined_category_ID" : categoryID), editedCategory).then((response)=>{
+            axios.put('inventory-api/categories/'+(categoryID === undefined ? "undefined_category_ID" : categoryID), editedCategory).then((response)=>{
                 setEditing(false);
                 console.log("edited category", response.data)
                 setLoading(true)

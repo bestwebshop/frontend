@@ -24,7 +24,7 @@ const UserDetails = () => {
 
     useEffect(() => {
         if (isLoading) {
-            axios.get('http://bestwebshop.tech:9201/user-api/users/'+(userID === undefined ? "undefined_user_ID" : userID)).then((response) => {
+            axios.get('user-api/users/'+(userID === undefined ? "undefined_user_ID" : userID)).then((response) => {
                 setLoading(false);
                 let loadedUser : User = {
                   id: response.data.id,

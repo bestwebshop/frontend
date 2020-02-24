@@ -16,7 +16,7 @@ const CategoryList = () => {
 
     useEffect(() => {
         if (isLoading) {
-            axios.get('http://bestwebshop.tech:9201/inventory-api/categories/').then((response) => {
+            axios.get('inventory-api/categories/').then((response) => {
                 setLoading(false);
                 let loadedCategories : Category[] = [];
                 for (const cat_id in response.data) {
@@ -29,7 +29,7 @@ const CategoryList = () => {
             });
         }
         if(isCreating) {
-            axios.post('http://bestwebshop.tech:9201/inventory-api/categories/',{"name": "new cat"}).then((response)=>{
+            axios.post('inventory-api/categories/',{"name": "new cat"}).then((response)=>{
                 setCreating(false);
                 console.log("added product", response.data)
                 setLoading(true);

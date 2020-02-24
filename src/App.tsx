@@ -13,6 +13,7 @@ import Users from "./pages/Users";
 import Categories from "./pages/Categories";
 import Roles from "./pages/Roles";
 import User from "./datatypes/User";
+import AuthData from "./datatypes/AuthData";
 import Login from "./pages/Login";
 import OAuthRedirectEndpoint from "./pages/OAuthRedirectEndpoint";
 
@@ -29,6 +30,13 @@ const App = () => {
           level: -1
         }
     });
+  const [authData] = useState<AuthData>({
+    code: "-",
+    state: "-",
+    access_token: "-"
+  });
+  //console.log(authData);
+  //setAuthData(authData);
   return (
         <Router>
           <div className="App">
@@ -70,10 +78,13 @@ const App = () => {
               </Navbar.Collapse>
             </Navbar>
             <main className="App-body">
-              {loggedInUser.id === -1 ?
+              {loggedInUser.id === -1 /*|| authData.access_token === "-" */ ?
                     <Switch>
                         <Route path="/OAuthRedirectEndpoint">
                             <OAuthRedirectEndpoint />
+                        </Route>
+                        <Route path="/:calledPath">
+                            <Login logUser={loggedInUser} setLogUser={setLoggedInUser}/>
                         </Route>
                         <Route>
                             <Login logUser={loggedInUser} setLogUser={setLoggedInUser}/>

@@ -28,7 +28,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
         if (isLoading) {
-            axios.get('http://bestwebshop.tech:9201/inventory-api/products/'+(productID === undefined ? "undefined_product_ID" : productID)).then((response) => {
+            axios.get('inventory-api/products/'+(productID === undefined ? "undefined_product_ID" : productID)).then((response) => {
                 setLoading(false);
                 let loadedProduct : Product = {
                     id: response.data.id,
@@ -45,7 +45,7 @@ const ProductDetails = () => {
             });
         }
         if(isDeleting){
-            axios.delete('http://bestwebshop.tech:9201/inventory-api/products/'+(productID === undefined ? "undefined_product_ID" : productID)).then((response)=>{
+            axios.delete('inventory-api/products/'+(productID === undefined ? "undefined_product_ID" : productID)).then((response)=>{
                 setDeleting(false);
                 console.log("deleted product", response.data)
                 history.push("/products");//redirect
@@ -53,7 +53,7 @@ const ProductDetails = () => {
         }
         if(isEditing){
             console.log("saving edited:",editedProduct)
-            axios.put('http://bestwebshop.tech:9201/inventory-api/products/'+(productID === undefined ? "undefined_product_ID" : productID), editedProduct).then((response)=>{
+            axios.put('inventory-api/products/'+(productID === undefined ? "undefined_product_ID" : productID), editedProduct).then((response)=>{
                 setEditing(false);
                 console.log("edited product", response.data)
                 setLoading(true)

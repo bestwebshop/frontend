@@ -3,6 +3,8 @@ import {Alert, Button, Col, Container, Form, InputGroup, Row} from "react-bootst
 import User from "../datatypes/User";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {LinkContainer} from "react-router-bootstrap";
+import {useLocation, Link} from 'react-router-dom'; 
+//import { OauthSender } from 'react-oauth-flow';
 
 const Login = (props:{logUser:User, setLogUser:Function}) => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -13,25 +15,15 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
 
   let logUser = props.logUser;
   let setLogUser = props.setLogUser;
+  let calledPath = "/";
+  const location = useLocation();
+  calledPath = location.pathname;
+  console.log("called from path", calledPath)
 
   useEffect(() => {
       if (isLoggingIn) {
         console.log("Logging in with",loginDetails)
-        /*setIsLoggingIn(false);
-        let u:User = {
-          id: 89,
-          lastname: "auth",
-          firstname: "user",
-          username: loginDetails.username,
-          password: loginDetails.password,
-          role: {
-            id: -1,
-            typ: "-",
-            level: -1
-          }
-        };
-        setLogUser(u);*/
-          axios.post('http://bestwebshop.tech:9201/user-api/session/',loginDetails).then((response: AxiosResponse) => {
+          axios.post('user-api/session/',loginDetails).then((response: AxiosResponse) => {
               setIsLoggingIn(false);
               let loadedUser : User = {
                 id: response.data.id,
@@ -49,7 +41,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
           }).catch((reason: AxiosError) => {
               setIsLoggingIn(false);
               console.log("login error", reason);
-                if (reason.response!.status === 400) {
+                if (reason.response !== undefined && reason.response.status === 400) {
                   // Handle 400
                 } else {
                   // Handle else
@@ -57,7 +49,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
                 console.log(reason.message)
           });
       }
-  }, [setLogUser, logUser, isLoggingIn, loginDetails]);
+  }, [setLogUser, logUser, isLoggingIn, setIsLoggingIn, loginDetails]);
 
     const handleLoginClick = () => setIsLoggingIn(true);
     const onUsernameChange = (val:string) => {
@@ -83,11 +75,25 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
             <Row><Col>Authorization Code Grant Type Step 2</Col></Row>
             <Row>
                 <Col>
-                    <LinkContainer to="/oauth/authorize?response_type=code&client_id=bestwebshop.tech&scope=login&redirect_uri=http://bestwebshop.tech/OAuthRedirectEndpoint">
+                    <a href={"http://bestwebshop.tech:9201/auth/authorize?response_type=code&state="+calledPath+"&client_id=webshop-webclient&scope=all.read%20all.write&redirect_uri=http://bestwebshop.tech/OAuthRedirectEndpoint"}>
                       <Button variant="primary">OAuth Login</Button>
-                    </LinkContainer>
+                    </a>
                 </Col>
             </Row>
+            {/*{<Row>
+              <Col>
+                <OauthSender
+                  authorizeUrl="http://bestwebshop.tech:9201/auth/authorize"
+                  clientId="webshop-webclient"
+                  redirectUri="http://bestwebshop.tech/OAuthRedirectEndpoint"
+                  state={{ from: calledPath }}
+                  render={(url:any) =>
+                      <a href={url}>Login using OAuth Module</a>
+                    }
+                />
+
+              </Col>
+                  </Row>*/}
             <Row><Col><h2>Legacy Login:</h2></Col></Row>
           <Row>
             <Col sm={2}>
