@@ -76,7 +76,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
             <Row><Col>Authorization Code Grant Type Step 2</Col></Row>
             <Row>
                 <Col>
-                    <a href={"http://bestwebshop.tech:9201/auth/authorize?response_type=code&state="+calledPath+"+++"+randomNrForState+"&client_id=webshop-webclient&scope=all.read%20all.write&redirect_uri=http://bestwebshop.tech/OAuthRedirectEndpoint"}>
+                    <a href={"http://localhost:9201/auth/authorize?response_type=code&state="+calledPath+"+++"+randomNrForState+"&client_id=webshop-webclient&scope=all.read%20all.write&redirect_uri=http://localhost/OAuthRedirectEndpoint"}>
                       <Button variant="primary">OAuth Login</Button>
                     </a>
                 </Col>
@@ -84,9 +84,9 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
             {/*{<Row>
               <Col>
                 <OauthSender
-                  authorizeUrl="http://bestwebshop.tech:9201/auth/authorize"
+                  authorizeUrl="http://localhost:9201/auth/authorize"
                   clientId="webshop-webclient"
-                  redirectUri="http://bestwebshop.tech/OAuthRedirectEndpoint"
+                  redirectUri="http://localhost/OAuthRedirectEndpoint"
                   state={{ from: calledPath }}
                   render={(url:any) =>
                       <a href={url}>Login using OAuth Module</a>

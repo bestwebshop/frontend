@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 
-axios.defaults.baseURL = 'http://bestwebshop.tech:9201/'; //does not work with our different ports
+axios.defaults.baseURL = 'http://localhost:9201/'; //does not work with our different ports
 //axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 ReactDOM.render(<App />, document.getElementById('root'));

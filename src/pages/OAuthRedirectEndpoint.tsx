@@ -76,7 +76,7 @@ const OAuthRedirectEndpoint = () => {
         'grant_type': 'authorization_code',
         'state': authData.state,
         'code': authData.code,
-        'redirect_uri': 'http://bestwebshop.tech/OAuthRedirectEndpoint'
+        'redirect_uri': 'http://localhost/OAuthRedirectEndpoint'
       }, {
         auth: {
           'username': 'webshop-webclient',
@@ -140,10 +140,10 @@ const OAuthRedirectEndpoint = () => {
         <Row>
           <Col>
             <OauthReceiver
-            tokenUrl="http://bestwebshop.tech/auth/token"
+            tokenUrl="http://localhost/auth/token"
             clientId="webshop-webclient"
             clientSecret="secret"
-            redirectUri="http://bestwebshop.tech/OAuthRedirectEndpoint"
+            redirectUri="http://localhost/OAuthRedirectEndpoint"
             onAuthSuccess={handleSuccess}
             onAuthError={handleError}
             render={(rp:RenderParams) => (
@@ -160,7 +160,7 @@ const OAuthRedirectEndpoint = () => {
         <Row>
               <Col>
               Old version: manual button
-                  <a href={"http://bestwebshop.tech:9201/auth/token?grant_type=authorization_code&client_id=webshop-webclient&client_secret=secret&state="+authData.state+"&code="+authData.code+"&redirect_uri=http://bestwebshop.tech/OAuthRedirectEndpoint"}>
+                  <a href={"http://localhost:9201/auth/token?grant_type=authorization_code&client_id=webshop-webclient&client_secret=secret&state="+authData.state+"&code="+authData.code+"&redirect_uri=http://localhost/OAuthRedirectEndpoint"}>
                     <Button variant="primary">Redirect</Button>
                   </a>
               </Col>
