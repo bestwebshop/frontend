@@ -35,7 +35,7 @@ const App = () => {
     state: "-",
     access_token: "-"
   });
-  //console.log(authData);
+  console.log("Got auth data:", authData);
   //setAuthData(authData);
   return (
         <Router>

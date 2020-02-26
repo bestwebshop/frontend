@@ -2,8 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Alert, Button, Col, Container, Form, InputGroup, Row} from "react-bootstrap";
 import User from "../datatypes/User";
 import axios, {AxiosError, AxiosResponse} from "axios";
-import {LinkContainer} from "react-router-bootstrap";
-import {useLocation, Link} from 'react-router-dom'; 
+import {useLocation} from 'react-router-dom'; 
 //import { OauthSender } from 'react-oauth-flow';
 
 const Login = (props:{logUser:User, setLogUser:Function}) => {
@@ -19,6 +18,8 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
   const location = useLocation();
   calledPath = location.pathname;
   console.log("called from path", calledPath)
+
+  const randomNrForState = Math.floor(Math.random() * 10000000) + 1; //random nr. between 1 snd 10.000.000  
 
   useEffect(() => {
       if (isLoggingIn) {
@@ -75,7 +76,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
             <Row><Col>Authorization Code Grant Type Step 2</Col></Row>
             <Row>
                 <Col>
-                    <a href={"http://bestwebshop.tech:9201/auth/authorize?response_type=code&state="+calledPath+"&client_id=webshop-webclient&scope=all.read%20all.write&redirect_uri=http://bestwebshop.tech/OAuthRedirectEndpoint"}>
+                    <a href={"http://bestwebshop.tech:9201/auth/authorize?response_type=code&state="+calledPath+"+++"+randomNrForState+"&client_id=webshop-webclient&scope=all.read%20all.write&redirect_uri=http://bestwebshop.tech/OAuthRedirectEndpoint"}>
                       <Button variant="primary">OAuth Login</Button>
                     </a>
                 </Col>

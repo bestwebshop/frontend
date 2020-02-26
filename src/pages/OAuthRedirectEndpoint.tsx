@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {Button, Col, Container, Row} from "react-bootstrap";
-import {LinkContainer} from "react-router-bootstrap";
 import AuthData from "datatypes/AuthData";
 import { useLocation } from 'react-router-dom';
 import * as qs from 'query-string';
@@ -73,9 +72,26 @@ const OAuthRedirectEndpoint = () => {
     }
     if (isRequestingToken) {
       console.log("Requesting Auth Token")
-      axios.get('auth/token?grant_type=authorization_code&client_id=webshop-webclient&client_secret=secret&state='+authData.state+'&code='+authData.code+'&redirect_uri=http://bestwebshop.tech/OAuthRedirectEndpoint').then((response : AxiosResponse) => {
+      axios.post('auth/token', {
+        'grant_type': 'authorization_code',
+        'state': authData.state,
+        'code': authData.code,
+        'redirect_uri': 'http://bestwebshop.tech/OAuthRedirectEndpoint'
+      }, {
+        auth: {
+          'username': 'webshop-webclient',
+          'password': 'supersecretpassword'
+        }
+      }).then((response : AxiosResponse) => {
         setIsRequestingToken(false);
         setTokenResponse(response);
+        console.log("got token response:", response);
+        let ad : AuthData = {
+          code: authData.code,
+          state: authData.state,
+          access_token: response.data['access_token']
+        };
+        setAuthData(ad)
       }).catch((reason: AxiosError) => {
         setIsRequestingToken(false);
         console.log("fetch token error", reason);
@@ -90,7 +106,7 @@ const OAuthRedirectEndpoint = () => {
   }, [setTokenResponse, tokenResponse, isRequestingToken, setIsRequestingToken, isCheckingQuery, setIsCheckingQuery, authData, setAuthData, queryParams]);
 
 
-    const handleRequestTokenClick = () => setIsRequestingToken(true);
+  const handleRequestTokenClick = () => setIsRequestingToken(true);
 
 
   //setAuthData(authData);
