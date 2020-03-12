@@ -2,7 +2,9 @@ import React, {useEffect, useState} from "react";
 import {Alert, Button, Col, Container, Form, InputGroup, Row} from "react-bootstrap";
 import User from "../datatypes/User";
 import axios, {AxiosError, AxiosResponse} from "axios";
-import {useLocation} from 'react-router-dom'; 
+import {useLocation} from 'react-router-dom';
+import {LinkContainer} from "react-router-bootstrap";
+import GlobalSettings from "../GlobalSettings";
 //import { OauthSender } from 'react-oauth-flow';
 
 const Login = (props:{logUser:User, setLogUser:Function}) => {
@@ -11,6 +13,7 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
     username: "",
     password: ""
   });
+  const [apiError, setApiError] = useState("");
 
   let logUser = props.logUser;
   let setLogUser = props.setLogUser;
@@ -41,16 +44,25 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
               setLogUser(loadedUser);
           }).catch((reason: AxiosError) => {
               setIsLoggingIn(false);
-              console.log("login error", reason);
+              console.log("login error:", reason.message, reason.response);
                 if (reason.response !== undefined && reason.response.status === 400) {
-                  // Handle 400
+                    // Handle 400
+                    let apiStr = ""
+                    if(reason.response.data.errors !== undefined){
+                        reason.response.data.errors.forEach((e:any) => {
+                            apiStr += e.field + " " + e.defaultMessage + "<br/>"
+                        });
+                    }
+                    setApiError(apiStr + "(status "+reason.response.status+")")
+                } else if (reason.response !== undefined && reason.response.status === 404) {
+                    // Handle 404
+                    setApiError(reason.response.data + "(status "+reason.response.status+")<br>Your password might be wrong")
                 } else {
-                  // Handle else
+                    // Handle else
                 }
-                console.log(reason.message)
           });
       }
-  }, [setLogUser, logUser, isLoggingIn, setIsLoggingIn, loginDetails]);
+  }, [setLogUser, logUser, isLoggingIn, setIsLoggingIn, loginDetails, setApiError]);
 
     const handleLoginClick = () => setIsLoggingIn(true);
     const onUsernameChange = (val:string) => {
@@ -76,17 +88,26 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
             <Row><Col>Authorization Code Grant Type Step 2</Col></Row>
             <Row>
                 <Col>
-                    <a href={"http://bestwebshop.tech:9201/auth/authorize?response_type=code&state="+calledPath+"+++"+randomNrForState+"&client_id=webshop-webclient&scope=all.read%20all.write&redirect_uri=http://bestwebshop.tech/OAuthRedirectEndpoint"}>
+                    <a href={"http://"+GlobalSettings.hostname+":9201/auth/authorize?response_type=code&state="+calledPath+"+++"+randomNrForState+"&client_id=webshop-webclient&scope=all.read%20all.write&redirect_uri=http://"+GlobalSettings.hostname+"/OAuthRedirectEndpoint"}>
                       <Button variant="primary">OAuth Login</Button>
                     </a>
+                </Col>
+            </Row>
+            <Row><Col><h2>Register:</h2></Col></Row>
+            <Row><Col>Register a new account</Col></Row>
+            <Row>
+                <Col>
+                    <LinkContainer to="/register">
+                      <Button variant="primary">Registration</Button>
+                    </LinkContainer>
                 </Col>
             </Row>
             {/*{<Row>
               <Col>
                 <OauthSender
-                  authorizeUrl="http://bestwebshop.tech:9201/auth/authorize"
+                  authorizeUrl="http://"+GlobalSettings.hostname+":9201/auth/authorize"
                   clientId="webshop-webclient"
-                  redirectUri="http://bestwebshop.tech/OAuthRedirectEndpoint"
+                  redirectUri="http://"+GlobalSettings.hostname+"/OAuthRedirectEndpoint"
                   state={{ from: calledPath }}
                   render={(url:any) =>
                       <a href={url}>Login using OAuth Module</a>
@@ -96,6 +117,13 @@ const Login = (props:{logUser:User, setLogUser:Function}) => {
               </Col>
                   </Row>*/}
             <Row><Col><h2>Legacy Login:</h2></Col></Row>
+            {apiError === "" ? <></> :
+                    <Row>
+                        <Col sm={12}>
+                            <Alert variant="danger"><div dangerouslySetInnerHTML={{ __html: apiError }} /></Alert>
+                        </Col>
+                    </Row>
+                }
           <Row>
             <Col sm={2}>
               Please Login:
