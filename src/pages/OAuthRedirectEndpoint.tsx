@@ -4,6 +4,7 @@ import AuthData from "datatypes/AuthData";
 import { useLocation } from 'react-router-dom';
 import * as qs from 'query-string';
 import axios, {AxiosError, AxiosResponse} from "axios";
+import GlobalSettings from "../GlobalSettings";
 
 
 
@@ -76,7 +77,7 @@ const OAuthRedirectEndpoint = () => {
         'grant_type': 'authorization_code',
         'state': authData.state,
         'code': authData.code,
-        'redirect_uri': 'http://localhost/OAuthRedirectEndpoint'
+        'redirect_uri': 'http://'+GlobalSettings.hostname+'/OAuthRedirectEndpoint'
       }, {
         auth: {
           'username': 'webshop-webclient',
@@ -140,10 +141,10 @@ const OAuthRedirectEndpoint = () => {
         <Row>
           <Col>
             <OauthReceiver
-            tokenUrl="http://localhost/auth/token"
+            tokenUrl="http://"+GlobalSettings.hostname+"/auth/token"
             clientId="webshop-webclient"
             clientSecret="secret"
-            redirectUri="http://localhost/OAuthRedirectEndpoint"
+            redirectUri="http://"+GlobalSettings.hostname+"/OAuthRedirectEndpoint"
             onAuthSuccess={handleSuccess}
             onAuthError={handleError}
             render={(rp:RenderParams) => (
@@ -160,7 +161,7 @@ const OAuthRedirectEndpoint = () => {
         <Row>
               <Col>
               Old version: manual button
-                  <a href={"http://localhost:9201/auth/token?grant_type=authorization_code&client_id=webshop-webclient&client_secret=secret&state="+authData.state+"&code="+authData.code+"&redirect_uri=http://localhost/OAuthRedirectEndpoint"}>
+                  <a href={"http://"+GlobalSettings.hostname+":9201/auth/token?grant_type=authorization_code&client_id=webshop-webclient&client_secret=secret&state="+authData.state+"&code="+authData.code+"&redirect_uri=http://"+GlobalSettings.hostname+"/OAuthRedirectEndpoint"}>
                     <Button variant="primary">Redirect</Button>
                   </a>
               </Col>

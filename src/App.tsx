@@ -16,14 +16,17 @@ import User from "./datatypes/User";
 import AuthData from "./datatypes/AuthData";
 import Login from "./pages/Login";
 import OAuthRedirectEndpoint from "./pages/OAuthRedirectEndpoint";
+import Register from "./pages/Register";
+import GlobalSettings from "GlobalSettings";
+
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<User>({
         id: -1,
-        lastname: "-",
-        firstname: "-",
-        username: "-",
-        password: "-",
+        lastname: "login_default_lastname",
+        firstname: "login_default_firstname",
+        username: "login_default_username",
+        password: "login_default_password",
         role: {
           id: -1,
           typ: "-",
@@ -58,12 +61,12 @@ const App = () => {
                     <LinkContainer to="/currency_converter"><NavDropdown.Item>Currency Converter</NavDropdown.Item></LinkContainer>
                     <LinkContainer to="/roles"><NavDropdown.Item>Roles</NavDropdown.Item></LinkContainer>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="http://localhost:9200/" target="_blank">Eureka Discovery Service</NavDropdown.Item>
-                    <NavDropdown.Item href="http://localhost:9206/actuator/hystrix.stream/" target="_blank">Hystrix Stream for Inventory Service</NavDropdown.Item>
-                    <NavDropdown.Item href="http://localhost:9207/hystrix/monitor?stream=http%3A%2F%2Finventory-service%3A8080%2Factuator%2Fhystrix.stream" target="_blank">Hystrix Monitor for Inventory Service</NavDropdown.Item>
+                    <NavDropdown.Item href={"http://"+GlobalSettings.hostname+":9200/"} target="_blank">Eureka Discovery Service</NavDropdown.Item>
+                    <NavDropdown.Item href={"http://"+GlobalSettings.hostname+":9206/actuator/hystrix.stream/"} target="_blank">Hystrix Stream for Inventory Service</NavDropdown.Item>
+                    <NavDropdown.Item href={"http://"+GlobalSettings.hostname+":9207/hystrix/monitor?stream=http%3A%2F%2Finventory-service%3A8080%2Factuator%2Fhystrix.stream"} target="_blank">Hystrix Monitor for Inventory Service</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="http://localhost:9201/" target="_blank">Zuul Edge Service</NavDropdown.Item>
-                    <NavDropdown.Item href="http://localhost:9207/" target="_blank">Hystrix Dashboard Service</NavDropdown.Item>
+                    <NavDropdown.Item href={"http://"+GlobalSettings.hostname+":9201/"} target="_blank">Zuul Edge Service</NavDropdown.Item>
+                    <NavDropdown.Item href={"http://"+GlobalSettings.hostname+":9207/"} target="_blank">Hystrix Dashboard Service</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
                 {loggedInUser.id === -1 ? <> </> :
@@ -82,6 +85,9 @@ const App = () => {
                     <Switch>
                         <Route path="/OAuthRedirectEndpoint">
                             <OAuthRedirectEndpoint />
+                        </Route>
+                        <Route path="/register">
+                            <Register />
                         </Route>
                         <Route path="/:calledPath">
                             <Login logUser={loggedInUser} setLogUser={setLoggedInUser}/>
