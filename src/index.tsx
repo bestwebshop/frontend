@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import GlobalSettings from "./GlobalSettings";
 
-
 axios.defaults.baseURL = 'http://'+GlobalSettings.hostname+':9201/'; //does not work with our different ports
 //axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
