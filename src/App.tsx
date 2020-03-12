@@ -18,6 +18,7 @@ import Login from "./pages/Login";
 import OAuthRedirectEndpoint from "./pages/OAuthRedirectEndpoint";
 import Register from "./pages/Register";
 import GlobalSettings from "GlobalSettings";
+import axios from "axios";
 
 
 const App = () => {
@@ -38,7 +39,8 @@ const App = () => {
     state: "-",
     access_token: "-"
   });
-  console.log("Got auth data:", authData);
+   axios.defaults.headers.common = {'Authorization': `Bearer ${authData.access_token}`}
+   console.log("Got auth data:", authData);
   //setAuthData(authData);
   return (
         <Router>
