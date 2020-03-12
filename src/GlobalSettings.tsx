@@ -1,4 +1,4 @@
 const GlobalSettings = {
-  hostname: "bestwebshop.tech"
+  hostname: "localhost"
 };
 export default GlobalSettings
