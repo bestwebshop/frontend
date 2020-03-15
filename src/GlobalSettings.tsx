@@ -1,7 +1,7 @@
 import User from "./datatypes/User";
 
 const GlobalSettings = {
-  hostname: "bestwebshop.tech",
+  hostname: "localhost",
   defaultLoggedInUser: {
     id: -1,
     lastname: "login_default_lastname",
