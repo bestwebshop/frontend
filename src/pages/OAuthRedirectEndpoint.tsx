@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {Button, Col, Container, Row} from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import AuthData from "datatypes/AuthData";
 import { useLocation } from 'react-router-dom';
 import * as qs from 'query-string';
-import axios, {AxiosError, AxiosResponse} from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import GlobalSettings from "../GlobalSettings";
 
 
@@ -46,53 +46,53 @@ const OAuthRedirectEndpoint = () => {
     state: "-",
     access_token: "-"
   });
-  
+
   const location = useLocation();
   const queryParams = qs.parse(location.search);
 
-   
+
   const [isRequestingToken, setIsRequestingToken] = useState(false);
   const [tokenResponse, setTokenResponse] = useState<any>({
-    "access_token_not_loaded" : "-"        
-    });
+    "access_token_not_loaded": "-"
+  });
 
   useEffect(() => {
     if (isCheckingQuery) {
-      console.log("Checking query params for auth:", queryParams)
+      console.log("Checking query params for auth:", queryParams);
 
       if ('code' in queryParams && 'state' in queryParams) {
-        let ad : AuthData = {
+        let ad: AuthData = {
           code: queryParams['code'] as string,
           state: queryParams['state'] as string,
           access_token: authData.access_token
         };
-        setAuthData(ad)
+        setAuthData(ad);
       }
 
       setIsCheckingQuery(false);
     }
     if (isRequestingToken) {
-      console.log("Requesting Auth Token")
+      console.log("Requesting Auth Token");
       axios.post('auth/token', {
         'grant_type': 'authorization_code',
         'state': authData.state,
         'code': authData.code,
-        'redirect_uri': 'http://'+GlobalSettings.hostname+'/OAuthRedirectEndpoint'
+        'redirect_uri': 'http://' + GlobalSettings.hostname + '/OAuthRedirectEndpoint'
       }, {
         auth: {
           'username': 'webshop-webclient',
           'password': 'supersecretpassword'
         }
-      }).then((response : AxiosResponse) => {
+      }).then((response: AxiosResponse) => {
         setIsRequestingToken(false);
         setTokenResponse(response);
         console.log("got token response:", response);
-        let ad : AuthData = {
+        let ad: AuthData = {
           code: authData.code,
           state: authData.state,
           access_token: response.data['access_token']
         };
-        setAuthData(ad)
+        setAuthData(ad);
       }).catch((reason: AxiosError) => {
         setIsRequestingToken(false);
         console.log("fetch token error", reason);
@@ -101,7 +101,7 @@ const OAuthRedirectEndpoint = () => {
         } else {
           // Handle else
         }
-        console.log(reason.message)
+        console.log(reason.message);
       });
     }
   }, [setTokenResponse, tokenResponse, isRequestingToken, setIsRequestingToken, isCheckingQuery, setIsCheckingQuery, authData, setAuthData, queryParams]);
@@ -112,32 +112,32 @@ const OAuthRedirectEndpoint = () => {
 
   //setAuthData(authData);
   return (
-      <Container>
-        <Row>
-          <Col sm={12}>
-            DEBUG: code={authData.code}, STATE={authData.state}
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={12}>
-            <h2>Login (Got Code) successfully - Now retreiving access token</h2>
+    <Container>
+      <Row>
+        <Col sm={12}>
+          DEBUG: code={authData.code}, STATE={authData.state}
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={12}>
+          <h2>Login (Got Code) successfully - Now retreiving access token</h2>
             Authorization Code Grant Type (Step 5)
-        <br/>
-        <br/>
+        <br />
+          <br />
         Use AJAX to fetch token:
         <Button
-          variant="primary"
+            variant="primary"
             type="submit"
-          disabled={isRequestingToken}
-          onClick={!isRequestingToken ? handleRequestTokenClick : () => {
-          }}
-        >
-          {isRequestingToken ? 'Requesting Token...' : 'Request Token'}
-        </Button>
-          </Col>
-        </Row>
+            disabled={isRequestingToken}
+            onClick={!isRequestingToken ? handleRequestTokenClick : () => {
+            }}
+          >
+            {isRequestingToken ? 'Requesting Token...' : 'Request Token'}
+          </Button>
+        </Col>
+      </Row>
 
-        {/*
+      {/*
         <Row>
           <Col>
             <OauthReceiver
@@ -158,16 +158,16 @@ const OAuthRedirectEndpoint = () => {
           />
           </Col>
                 </Row>*/}
-        <Row>
-              <Col>
-              Old version: manual button
-                  <a href={"http://"+GlobalSettings.hostname+":9201/auth/token?grant_type=authorization_code&client_id=webshop-webclient&client_secret=secret&state="+authData.state+"&code="+authData.code+"&redirect_uri=http://"+GlobalSettings.hostname+"/OAuthRedirectEndpoint"}>
-                    <Button variant="primary">Redirect</Button>
-                  </a>
-              </Col>
-        </Row>
-      </Container>
+      <Row>
+        <Col>
+          Old version: manual button
+                  <a href={"http://" + GlobalSettings.hostname + ":9201/auth/token?grant_type=authorization_code&client_id=webshop-webclient&client_secret=secret&state=" + authData.state + "&code=" + authData.code + "&redirect_uri=http://" + GlobalSettings.hostname + "/OAuthRedirectEndpoint"}>
+            <Button variant="primary">Redirect</Button>
+          </a>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
 
-export default OAuthRedirectEndpoint
+export default OAuthRedirectEndpoint;

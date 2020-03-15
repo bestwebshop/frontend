@@ -1,7 +1,7 @@
 interface Role {
-    id: number;
-    typ: string;
-    level: number;
+  id: number;
+  typ: string;
+  level: number;
 }
 
 export default Role;
