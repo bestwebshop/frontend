@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Products from "./pages/Products";
 import Home from "./pages/Home";
@@ -18,10 +17,22 @@ import OAuthRedirectEndpoint from "./pages/OAuthRedirectEndpoint";
 import Register from "./pages/Register";
 import GlobalSettings from "GlobalSettings";
 import axios from "axios";
+import User from 'datatypes/User';
 
 
 const App = () => {
-  const [loggedInUser] = useState(GlobalSettings.defaultLoggedInUser);
+  const [loggedInUser, setLoggedInUser] = useState<User>({
+    id: -1,
+    lastname: "login_default_lastname",
+    firstname: "login_default_firstname",
+    username: "login_default_username",
+    password: "login_default_password",
+    role: {
+      id: -1,
+      typ: "-",
+      level: -1 // 0=admin, 1=user
+    }
+  });
   const [authData] = useState<AuthData>({
     code: "-",
     state: "-",
@@ -76,14 +87,18 @@ const App = () => {
               <Route path="/OAuthRedirectEndpoint" component={OAuthRedirectEndpoint} />
               <Route path="/register" component={Register} />
               <Route path="/:calledPath">
-                <Login /> {/* logUser={loggedInUser} setLogUser={setLoggedInUser} */}
+                <Login loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
               </Route>
-              <Route component={Login} />
+              <Route>
+                <Login loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
+              </Route>
             </Switch>
             :
             <Switch>
               <Route path="/" exact component={Home} />
-              <Route path="/products" component={Products} />
+              <Route path="/products">
+                <Products loggedInUser={loggedInUser} />
+              </Route>
               <Route path="/users" component={Users} />
               <Route path="/categories" component={Categories} />
               <Route path="/roles" component={Roles} />

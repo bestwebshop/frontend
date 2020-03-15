@@ -4,8 +4,9 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import Product from "../datatypes/Product";
 import axios from "axios";
 import { LinkContainer } from "react-router-bootstrap";
+import User from "../datatypes/User";
 
-const ProductDetails = () => {
+const ProductDetails = (props: { loggedInUser: User; }) => {
   let { productID } = useParams();
 
   const [isLoading, setLoading] = useState(true); //true=fetch from api onload, false=only on button click

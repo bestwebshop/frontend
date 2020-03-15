@@ -5,18 +5,18 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { useLocation } from 'react-router-dom';
 import { LinkContainer } from "react-router-bootstrap";
 import GlobalSettings from "../GlobalSettings";
-//import { OauthSender } from 'react-oauth-flow';
 
-const Login = () => { //(props:{logUser:User, setLogUser:Function})
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [loginDetails, setLoginDetails] = useState({
+const Login = (props: { loggedInUser: User, setLoggedInUser: Function; }) => { //()
+  const [isLegacyLoggingIn, setIsLegacyLoggingIn] = useState(false);
+  const [legacyLoginDetails, setLegacyLoginDetails] = useState({
     username: "",
     password: ""
   });
-  const [loggedInUser, setLoggedInUser] = useState(GlobalSettings.defaultLoggedInUser);
   const [apiError, setApiError] = useState("");
 
-  //const loggedInUser = props.logUser;
+  const loggedInUser = props.loggedInUser;
+  const setLoggedInUser = props.setLoggedInUser;
+
   let calledPath = "/";
   const location = useLocation();
   calledPath = location.pathname;
@@ -25,10 +25,10 @@ const Login = () => { //(props:{logUser:User, setLogUser:Function})
   const randomNrForState = Math.floor(Math.random() * 10000000) + 1; //random nr. between 1 snd 10.000.000  
 
   useEffect(() => {
-    if (isLoggingIn) {
-      console.log("Logging in with", loginDetails);
-      axios.post('user-api/session/', loginDetails).then((response: AxiosResponse) => {
-        setIsLoggingIn(false);
+    if (isLegacyLoggingIn) {
+      console.log("Logging in with", legacyLoginDetails);
+      axios.post('user-api/session/', legacyLoginDetails).then((response: AxiosResponse) => {
+        setIsLegacyLoggingIn(false);
         let loadedUser: User = {
           id: response.data.id,
           lastname: response.data.lastname,
@@ -42,8 +42,9 @@ const Login = () => { //(props:{logUser:User, setLogUser:Function})
           }
         };
         setLoggedInUser(loadedUser);
+        console.log("logged in via legacy method / user-api:", loadedUser);
       }).catch((reason: AxiosError) => {
-        setIsLoggingIn(false);
+        setIsLegacyLoggingIn(false);
         console.log("login error:", reason.message, reason.response);
         if (reason.response !== undefined && reason.response.status === 400) {
           // Handle 400
@@ -62,18 +63,18 @@ const Login = () => { //(props:{logUser:User, setLogUser:Function})
         }
       });
     }
-  }, [setLoggedInUser, loggedInUser, isLoggingIn, setIsLoggingIn, loginDetails, setApiError]);
+  }, [setLoggedInUser, loggedInUser, isLegacyLoggingIn, setIsLegacyLoggingIn, legacyLoginDetails, setApiError]);
 
-  const handleLoginClick = () => setIsLoggingIn(true);
+  const handleLegacyLoginClick = () => setIsLegacyLoggingIn(true);
   const onUsernameChange = (val: string) => {
-    let temp = { ...loginDetails };
+    let temp = { ...legacyLoginDetails };
     temp.username = val.toString();
-    setLoginDetails({ ...temp });
+    setLegacyLoginDetails({ ...temp });
   };
   const onPasswordChange = (val: string) => {
-    let temp = { ...loginDetails };
+    let temp = { ...legacyLoginDetails };
     temp.password = val.toString();
-    setLoginDetails({ ...temp });
+    setLegacyLoginDetails({ ...temp });
   };
 
   return (
@@ -135,7 +136,7 @@ const Login = () => { //(props:{logUser:User, setLogUser:Function})
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1">User</InputGroup.Text>
                   </InputGroup.Prepend>
-                  <Form.Control type="text" placeholder="Username" autoComplete="username" value={loginDetails.username} onChange={(e: any) => onUsernameChange(e.target.value)} />
+                  <Form.Control type="text" placeholder="Username" autoComplete="username" value={legacyLoginDetails.username} onChange={(e: any) => onUsernameChange(e.target.value)} />
                 </InputGroup>
               </Col>
             </Form.Group>
@@ -145,18 +146,18 @@ const Login = () => { //(props:{logUser:User, setLogUser:Function})
               <InputGroup.Prepend>
                 <InputGroup.Text id="basic-addon1">Password</InputGroup.Text>
               </InputGroup.Prepend>
-              <Form.Control type="password" placeholder="Password" autoComplete="current-password" value={loginDetails.password} onChange={(e: any) => onPasswordChange(e.target.value)} />
+              <Form.Control type="password" placeholder="Password" autoComplete="current-password" value={legacyLoginDetails.password} onChange={(e: any) => onPasswordChange(e.target.value)} />
             </InputGroup>
           </Col>
           <Col sm={2}>
             <Button
               variant="primary"
               type="submit"
-              disabled={isLoggingIn}
-              onClick={!isLoggingIn ? handleLoginClick : () => {
+              disabled={isLegacyLoggingIn}
+              onClick={!isLegacyLoggingIn ? handleLegacyLoginClick : () => {
               }}
             >
-              {isLoggingIn ? 'Logging in…' : 'Login'}
+              {isLegacyLoggingIn ? 'Logging in…' : 'Login'}
             </Button>
           </Col>
         </Row>

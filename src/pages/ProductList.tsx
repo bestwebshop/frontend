@@ -4,10 +4,9 @@ import { LinkContainer } from "react-router-bootstrap";
 import axios from "axios";
 import Product from "../datatypes/Product";
 import { Link, useRouteMatch } from "react-router-dom";
-import GlobalSettings from "GlobalSettings";
+import User from "../datatypes/User";
 
-
-const ProductList = () => {
+const ProductList = (props: { loggedInUser: User; }) => {
   const [isLoading, setLoading] = useState(true); //true=fetch from api onload, false=only on button click
   const [isCreating, setCreating] = useState(false);
   const [isDeleting, setDeleting] = useState(0);
@@ -21,8 +20,7 @@ const ProductList = () => {
       name: "-"
     }
   }]);
-  const [loggedInUser] = useState(GlobalSettings.defaultLoggedInUser);
-
+  console.log("loggedInUser is", props.loggedInUser);
   useEffect(() => {
     if (isLoading) {
       axios.get('inventory-api/products/').then((response) => {
@@ -45,6 +43,7 @@ const ProductList = () => {
       });
     }
     if (isCreating) {
+      console.log("creating,... loggedInUser is", props.loggedInUser);
       axios.post('inventory-api/products/', { "name": "hi", "details": "test", "price": 12, "category": "cat of new product" }).then((response) => {
         setCreating(false);
         console.log("added product", response.data);
@@ -58,7 +57,7 @@ const ProductList = () => {
         setLoading(true);
       });
     }
-  }, [setLoadedProducts, isLoading, isCreating, isDeleting]);
+  }, [setLoadedProducts, isLoading, isCreating, isDeleting, props.loggedInUser]);
 
   const handleClick = () => setLoading(true);
   const handleCreateClick = () => setCreating(true);
@@ -69,7 +68,7 @@ const ProductList = () => {
     <Container>
       <Row>
         <Col sm={4}>
-          {loggedInUser.role.level > 0 ? <></> :
+          {props.loggedInUser.role.level > 0 ? <></> :
             <Button
               variant="success"
               disabled={isCreating}
@@ -119,7 +118,7 @@ const ProductList = () => {
                         <LinkContainer to={`${match.url}/${item.id.toString()}`}>
                           <Button variant="secondary">Details</Button>
                         </LinkContainer>
-                        {loggedInUser.role.level > 0 ? <></> :
+                        {props.loggedInUser.role.level > 0 ? <></> :
                           <Button
                             variant="danger"
                             disabled={isDeleting > 0}
