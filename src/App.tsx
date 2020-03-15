@@ -21,7 +21,7 @@ import axios from "axios";
 
 
 const App = () => {
-  const [loggedInUser, setLoggedInUser] = useState(GlobalSettings.defaultLoggedInUser);
+  const [loggedInUser] = useState(GlobalSettings.defaultLoggedInUser);
   const [authData] = useState<AuthData>({
     code: "-",
     state: "-",
