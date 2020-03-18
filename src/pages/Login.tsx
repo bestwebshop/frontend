@@ -89,7 +89,7 @@ const Login = (props: { loggedInUser: User, setLoggedInUser: Function; }) => { /
         <Row><Col>Authorization Code Grant Type Step 2</Col></Row>
         <Row>
           <Col>
-            <a href={"http://" + GlobalSettings.hostname + ":9201/auth/authorize?response_type=code&state=" + calledPath + "+++" + randomNrForState + "&client_id=webshop-webclient&scope=all.read%20all.write&redirect_uri=http://" + GlobalSettings.hostname + "/OAuthRedirectEndpoint"}>
+            <a href={"http://" + GlobalSettings.hostname + ":9208/oauth/authorize?response_type=code&state=" + calledPath + "+++" + randomNrForState + "&client_id=webshop-webclient&scope=all.read%20all.write&redirect_uri=http://" + GlobalSettings.hostname + "/OAuthRedirectEndpoint"}>
               <Button variant="primary">OAuth Login</Button>
             </a>
           </Col>

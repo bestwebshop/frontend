@@ -73,7 +73,7 @@ const OAuthRedirectEndpoint = () => {
     }
     if (isRequestingToken) {
       console.log("Requesting Auth Token");
-      axios.post('auth/token', {
+      axios.post("http://" + GlobalSettings.hostname + ":9208/oauth/token", {
         'grant_type': 'authorization_code',
         'state': authData.state,
         'code': authData.code,
@@ -161,7 +161,7 @@ const OAuthRedirectEndpoint = () => {
       <Row>
         <Col>
           Old version: manual button
-                  <a href={"http://" + GlobalSettings.hostname + ":9201/auth/token?grant_type=authorization_code&client_id=webshop-webclient&client_secret=secret&state=" + authData.state + "&code=" + authData.code + "&redirect_uri=http://" + GlobalSettings.hostname + "/OAuthRedirectEndpoint"}>
+                  <a href={"http://" + GlobalSettings.hostname + ":9208/oauth/token?grant_type=authorization_code&client_id=webshop-webclient&client_secret=secret&state=" + authData.state + "&code=" + authData.code + "&redirect_uri=http://" + GlobalSettings.hostname + "/OAuthRedirectEndpoint"}>
             <Button variant="primary">Redirect</Button>
           </a>
         </Col>
